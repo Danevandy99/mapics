@@ -1,12 +1,27 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+  <div class="container">
     <a class="navbar-brand" href="#">Mapics</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar"
+      aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation"
+      (click)="isNavbarCollapsed = !isNavbarCollapsed">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <div class="collapse navbar-collapse" [ngbCollapse]="isNavbarCollapsed" id="navbar">
+      <div class="navbar-nav mr-auto">
+        <ng-container *ngIf="authService.isLoggedIn | async">
+          <a class="nav-item nav-link" href="#" routerLinkActive="active" routerLink="/home">Home</a>
+          <a class="nav-item nav-link" href="#" routerLinkActive="active" routerLink="/profile">Profile</a>
+        </ng-container>
+      </div>
       <div class="navbar-nav">
-        <a class="nav-item nav-link active" href="#">Home <span class="sr-only">(current)</span></a>
-        <a class="nav-item nav-link" href="#">Profile</a>
+        <ng-container *ngIf="authService.isLoggedIn | async">
+          <a class="nav-item nav-link" (click)="authService.logout()" [routerLink]="['log-in']">Logout</a>
+        </ng-container>
+        <ng-container *ngIf="!(authService.isLoggedIn | async)">
+          <a class="nav-item nav-link" [routerLink]="['sign-up']">Sign Up</a>
+          <a class="nav-item nav-link" [routerLink]="['log-in']">Log In</a>
+        </ng-container>
       </div>
     </div>
-  </nav>
+  </div>
+</nav>
