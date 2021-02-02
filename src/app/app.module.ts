@@ -13,6 +13,7 @@ import { LogInComponent } from './auth/log-in/log-in.component';
 import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.component';
 import { HomeComponent } from './home/home.component';
 import { HeaderComponent } from './components/header/header.component';
+import { ProfileComponent } from './profile/profile.component';
 
 const config = {
   apiKey: "AIzaSyBiBcN3svwTQk_jOdfVz239d0zZX4FKthE",
@@ -32,6 +33,7 @@ const config = {
     ForgotPasswordComponent,
     HomeComponent,
     HeaderComponent,
+    ProfileComponent,
   ],
   imports: [
     BrowserModule,
