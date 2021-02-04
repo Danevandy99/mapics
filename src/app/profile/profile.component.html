@@ -1,1 +1,73 @@
-<p>profile works!</p>
+<div class="container d-flex flex-column align-items-center vh-100 pb-3">
+  <div class="cover-photo">
+    <img class="w-100 h-100"
+      src="https://images.unsplash.com/photo-1579691099788-42394ae932d8?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=3578&q=80" />
+  </div>
+  <div class="profile-photo">
+    <img class="img-thumbnail" width="200" height="200"
+      src="https://scontent.fmci1-3.fna.fbcdn.net/v/t1.0-9/56580500_952946725036947_7436980033324843008_o.jpg?_nc_cat=105&ccb=2&_nc_sid=09cbfe&_nc_ohc=1Q4T2Vo6igkAX_gnwe1&_nc_ht=scontent.fmci1-3.fna&oh=2db7965d440cd32492064407157194e6&oe=6042C391" />
+  </div>
+  <div class="profile-info text-center">
+    <h1 class="mt-1 mb-0">Dane Vanderbilt</h1>
+    <p class="mt-0 mb-2"><small>@danevanderbilt</small></p>
+    <h6 class="text-muted font-weight-light mt-0">Christian | Full Stack Developer | Soccer Player</h6>
+    <div class="row mt-2">
+      <div class="col-4 px-2 text-center">
+        <h2 class="font-weight-light mb-0">28</h2>
+        <p class="font-weight-bold">posts</p>
+      </div>
+      <div class="col-4 px-2 text-center">
+        <h2 class="font-weight-light mb-0">300</h2>
+        <p class="font-weight-bold">followers</p>
+      </div>
+      <div class="col-4 px-2 text-center">
+        <h2 class="font-weight-light mb-0">310</h2>
+        <p class="font-weight-bold">following</p>
+      </div>
+    </div>
+  </div>
+  <ul class="nav nav-pills nav-fill profile-menu row mt-1">
+    <li class="nav-item">
+      <a
+        class="nav-link"
+        [ngClass]="{ 'active': profileTabState === 0 }"
+        (click)="profileTabState = 0"
+        aria-current="page">Highlights</a>
+    </li>
+    <li class="nav-item">
+      <a
+        class="nav-link"
+        [ngClass]="{ 'active': profileTabState === 1 }"
+        (click)="profileTabState = 1"
+        aria-current="page">Grid</a>
+    </li>
+    <li class="nav-item">
+      <a
+        class="nav-link"
+        [ngClass]="{ 'active': profileTabState === 2 }"
+        (click)="profileTabState = 2"
+        aria-current="page">Vertical</a>
+    </li>
+  </ul>
+  <hr class="border w-100">
+  <div class="profile-highlights row flex-grow-1 w-100 pt-2" *ngIf="profileTabState === 0">
+    <div class="col-2 px-1">
+      <img class="w-100 h-100" src="https://images.unsplash.com/photo-1612440455990-785cd7ac50ef?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1234&q=80"/>
+    </div>
+    <div class="col-2 px-1">
+      <img class="w-100 h-100" src="https://images.unsplash.com/photo-1612440455990-785cd7ac50ef?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1234&q=80"/>
+    </div>
+    <div class="col-2 px-1">
+      <img class="w-100 h-100" src="https://images.unsplash.com/photo-1612440455990-785cd7ac50ef?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1234&q=80"/>
+    </div>
+    <div class="col-2 px-1">
+      <img class="w-100 h-100" src="https://images.unsplash.com/photo-1612440455990-785cd7ac50ef?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1234&q=80"/>
+    </div>
+    <div class="col-2 px-1">
+      <img class="w-100 h-100" src="https://images.unsplash.com/photo-1612440455990-785cd7ac50ef?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1234&q=80"/>
+    </div>
+    <div class="col-2 px-1">
+      <img class="w-100 h-100" src="https://images.unsplash.com/photo-1612440455990-785cd7ac50ef?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1234&q=80"/>
+    </div>
+  </div>
+</div>

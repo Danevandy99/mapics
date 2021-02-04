@@ -1,4 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
+$font-family-base: 'Quicksand', sans-serif;
+$font-weight-base: 600;
+$theme-colors: (
+  "primary": #9198e5
+);
 
 /* Importing Bootstrap SCSS file. */
 @import '~bootstrap/scss/bootstrap';
+
+.nav-pills .nav-link {
+  border-radius: 12px;
+}
