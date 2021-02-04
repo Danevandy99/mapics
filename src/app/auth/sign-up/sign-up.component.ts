@@ -14,6 +14,7 @@ export class SignUpComponent implements OnInit {
     password: new FormControl('', [Validators.required, Validators.minLength(8)]),
     passwordConfirmation: new FormControl('', [Validators.required, Validators.minLength(8)])
   }, [this.passwordsMatch]);
+  firebaseError: string;
 
   constructor(
     public authService: AuthService
@@ -23,7 +24,11 @@ export class SignUpComponent implements OnInit {
   }
 
   signUp(formValue: { emailAddress: string, password: string, passwordConfirmation: string }) {
-    this.authService.signUp(formValue.emailAddress, formValue.password);
+    this.firebaseError = null;
+    this.authService.signUp(formValue.emailAddress, formValue.password)
+      .catch(error => {
+        this.firebaseError = error.message;
+      });
   }
 
   passwordsMatch(control: AbstractControl): { passwordsDoNotMatch: boolean } {

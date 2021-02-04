@@ -46,6 +46,7 @@
           <div *ngIf="signUpForm.get('passwordConfirmation').dirty || signUpForm.get('passwordConfirmation').touched" class="ml-2 text-danger d-flex flex-column mt-1">
             <small *ngIf="signUpForm.get('passwordConfirmation').errors?.required">A password confirmation is required.</small>
             <small *ngIf="signUpForm.errors?.passwordsDoNotMatch">Passwords must match.</small>
+            <small *ngIf="firebaseError">{{ firebaseError }}</small>
           </div>
         </div>
         <button

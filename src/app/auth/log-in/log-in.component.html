@@ -30,6 +30,7 @@
           <!-- Errors -->
           <div *ngIf="logInForm.get('password').dirty || logInForm.get('password').touched" class="ml-2 text-danger d-flex flex-column mt-1">
             <small *ngIf="logInForm.get('password').errors?.required">Password is required.</small>
+            <small *ngIf="firebaseError">{{ firebaseError }}</small>
           </div>
         </div>
         <button type="button" class="btn btn-link mb-3 d-inline mx-auto" routerLink="/forgot-password">Forgot your password?</button>

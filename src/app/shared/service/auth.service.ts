@@ -43,7 +43,8 @@ export class AuthService {
         });
         this.setUserData(result.user);
       }).catch((error) => {
-        window.alert(error.message)
+        console.log(error.message)
+        throw error;
       })
   }
 
@@ -55,7 +56,8 @@ export class AuthService {
         up and returns promise */
         this.setUserData(result.user);
       }).catch((error) => {
-        window.alert(error.message)
+        console.log(error.message);
+        throw error;
       })
   }
 
@@ -63,9 +65,10 @@ export class AuthService {
   forgotPassword(passwordResetEmail) {
     return this.auth.sendPasswordResetEmail(passwordResetEmail)
     .then(() => {
-      window.alert('Password reset email sent, check your inbox.');
+      console.log('Password reset email sent, check your inbox.');
     }).catch((error) => {
-      window.alert(error)
+      console.log(error)
+      throw error;
     })
   }
 
@@ -78,7 +81,8 @@ export class AuthService {
         })
       this.setUserData(result.user);
     }).catch((error) => {
-      window.alert(error)
+      console.log(error)
+      throw error;
     })
   }
 

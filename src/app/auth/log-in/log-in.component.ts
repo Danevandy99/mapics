@@ -13,6 +13,7 @@ export class LogInComponent implements OnInit {
     emailAddress: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required])
   });
+  firebaseError: string;
 
   constructor(
     public authService: AuthService
@@ -22,6 +23,10 @@ export class LogInComponent implements OnInit {
   }
 
   logIn(formValue: { emailAddress: string, password: string }) {
-    this.authService.logIn(formValue.emailAddress, formValue.password);
+    this.firebaseError = null;
+    this.authService.logIn(formValue.emailAddress, formValue.password)
+      .catch(error => {
+        this.firebaseError = error.message;
+      })
   }
 }

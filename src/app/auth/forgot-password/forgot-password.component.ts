@@ -12,6 +12,7 @@ export class ForgotPasswordComponent implements OnInit {
   forgotPasswordForm: FormGroup = new FormGroup({
     emailAddress: new FormControl('', [Validators.required, Validators.email])
   });
+  firebaseError: string;
 
   constructor(
     private authService: AuthService
@@ -21,6 +22,10 @@ export class ForgotPasswordComponent implements OnInit {
   }
 
   forgotPassword(formValue: { emailAddress: string }) {
-    this.authService.forgotPassword(formValue.emailAddress);
+    this.firebaseError = null;
+    this.authService.forgotPassword(formValue.emailAddress)
+      .catch(error => {
+        this.firebaseError = error.message;
+      })
   }
 }
