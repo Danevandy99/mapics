@@ -5,15 +5,48 @@
         <h2 class="mb-3 text-center">Sign Up</h2>
         <div class="form-group">
           <label for="email">Email address</label>
-          <input type="email" class="form-control" id="email" placeholder="Email address" formControlName="emailAddress">
+          <input
+            type="email"
+            class="form-control"
+            [ngClass]="(signUpForm.get('emailAddress').dirty || signUpForm.get('emailAddress').touched) ? (!signUpForm.get('emailAddress').errors  ? 'is-valid' : 'is-invalid') : ''"
+            id="email"
+            placeholder="Email address"
+            formControlName="emailAddress">
+            <!-- Errors -->
+            <div *ngIf="signUpForm.get('emailAddress').dirty || signUpForm.get('emailAddress').touched" class="ml-2 text-danger d-flex flex-column mt-1">
+              <small *ngIf="signUpForm.get('emailAddress').errors?.required">Email Address is required.</small>
+              <small *ngIf="signUpForm.get('emailAddress').errors?.email">Must enter a valid email address.</small>
+            </div>
         </div>
         <div class="form-group">
           <label for="password">Password</label>
-          <input type="password" class="form-control" id="password" placeholder="Password" formControlName="password">
+          <input
+            type="password"
+            class="form-control"
+            [ngClass]="(signUpForm.get('password').dirty || signUpForm.get('password').touched) ? (!signUpForm.get('password').errors  ? 'is-valid' : 'is-invalid') : ''"
+            id="password"
+            placeholder="Password"
+            formControlName="password">
+          <!-- Errors -->
+          <div *ngIf="signUpForm.get('password').dirty || signUpForm.get('password').touched" class="ml-2 text-danger d-flex flex-column mt-1">
+            <small *ngIf="signUpForm.get('password').errors?.required">A password is required.</small>
+            <small *ngIf="signUpForm.get('password').errors?.minlength">Password must be at least {{ signUpForm.get('password').errors?.minlength.requiredLength }} characters.</small>
+          </div>
         </div>
         <div class="form-group">
           <label for="password-confirmation">Password Confirmation</label>
-          <input type="password" class="form-control" id="password-confirmation" placeholder="Password Confirmation" formControlName="passwordConfirmation">
+          <input
+            type="password"
+            class="form-control"
+            [ngClass]="(signUpForm.get('passwordConfirmation').dirty || signUpForm.get('passwordConfirmation').touched) ? (!signUpForm.get('passwordConfirmation').errors  ? 'is-valid' : 'is-invalid') : ''"
+            id="password-confirmation"
+            placeholder="Password Confirmation"
+            formControlName="passwordConfirmation">
+          <!-- Errors -->
+          <div *ngIf="signUpForm.get('passwordConfirmation').dirty || signUpForm.get('passwordConfirmation').touched" class="ml-2 text-danger d-flex flex-column mt-1">
+            <small *ngIf="signUpForm.get('passwordConfirmation').errors?.required">A password confirmation is required.</small>
+            <small *ngIf="signUpForm.errors?.passwordsDoNotMatch">Passwords must match.</small>
+          </div>
         </div>
         <button
           type="submit"

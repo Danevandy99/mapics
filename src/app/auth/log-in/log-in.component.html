@@ -5,13 +5,34 @@
         <h2 class="mb-3 text-center">Log In</h2>
         <div class="form-group">
           <label for="email">Email address</label>
-          <input type="email" class="form-control" id="email" placeholder="Email address" formControlName="emailAddress">
+          <input
+            type="email"
+            class="form-control"
+            [ngClass]="(logInForm.get('emailAddress').dirty || logInForm.get('emailAddress').touched) ? (!logInForm.get('emailAddress').errors  ? 'is-valid' : 'is-invalid') : ''"
+            id="email"
+            placeholder="Email address"
+            formControlName="emailAddress">
+          <!-- Errors -->
+          <div *ngIf="logInForm.get('emailAddress').dirty || logInForm.get('emailAddress').touched" class="ml-2 text-danger d-flex flex-column mt-1">
+            <small *ngIf="logInForm.get('emailAddress').errors?.required">Email Address is required.</small>
+            <small *ngIf="logInForm.get('emailAddress').errors?.email">Must enter a valid email address.</small>
+          </div>
         </div>
         <div class="form-group">
           <label for="password">Password</label>
-          <input type="password" class="form-control" id="password" placeholder="Password" formControlName="password">
+          <input
+            type="password"
+            class="form-control"
+            [ngClass]="(logInForm.get('password').dirty || logInForm.get('password').touched) ? (!logInForm.get('password').errors  ? 'is-valid' : 'is-invalid') : ''"
+            id="password"
+            placeholder="Password"
+            formControlName="password">
+          <!-- Errors -->
+          <div *ngIf="logInForm.get('password').dirty || logInForm.get('password').touched" class="ml-2 text-danger d-flex flex-column mt-1">
+            <small *ngIf="logInForm.get('password').errors?.required">Password is required.</small>
+          </div>
         </div>
-        <button type="button" class="btn btn-link mb-3" routerLink="/forgot-password">Forgot your password?</button>
+        <button type="button" class="btn btn-link mb-3 d-inline mx-auto" routerLink="/forgot-password">Forgot your password?</button>
         <button
           type="submit"
           [disabled]="!logInForm.valid"

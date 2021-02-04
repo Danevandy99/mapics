@@ -23,7 +23,7 @@ export class SignUpComponent implements OnInit {
   }
 
   signUp(formValue: { emailAddress: string, password: string, passwordConfirmation: string }) {
-    this.authService.signUp(formValue.password, formValue.password);
+    this.authService.signUp(formValue.emailAddress, formValue.password);
   }
 
   passwordsMatch(control: AbstractControl): { passwordsDoNotMatch: boolean } {
