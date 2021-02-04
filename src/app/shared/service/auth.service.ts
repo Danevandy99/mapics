@@ -52,9 +52,10 @@ export class AuthService {
   signUp(email, password) {
     return this.auth.createUserWithEmailAndPassword(email, password)
       .then((result) => {
-        /* Call the SendVerificaitonMail() function when new user sign
-        up and returns promise */
         this.setUserData(result.user);
+        this.ngZone.run(() => {
+          this.router.navigate(['home']);
+        });
       }).catch((error) => {
         console.log(error.message);
         throw error;
