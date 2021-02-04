@@ -1,6 +1,7 @@
 import { Injectable, NgZone } from '@angular/core';
-import { User } from "../models/user";
+import { UserSettings } from "../models/user";
 import { AngularFireAuth } from "@angular/fire/auth";
+import firebase from "firebase";
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { Router } from "@angular/router";
 import { BehaviorSubject } from 'rxjs';
@@ -9,7 +10,7 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthService {
-  userData: any; // Save logged in user data
+  userData: firebase.User; // Save logged in user data
   isLoggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(JSON.parse(localStorage.getItem('user')) !== null);
 
   constructor(
@@ -92,8 +93,8 @@ export class AuthService {
   provider in Firestore database using AngularFirestore + AngularFirestoreDocument service */
   setUserData(user) {
     const userRef: AngularFirestoreDocument<any> = this.store.doc(`users/${user.uid}`);
-    const userData: User = {
-      uid: user.uid,
+    const userData: Partial<UserSettings> = {
+      userId: user.uid,
       email: user.email,
       displayName: user.displayName,
       photoURL: user.photoURL,
