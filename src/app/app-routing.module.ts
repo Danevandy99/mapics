@@ -1,3 +1,4 @@
+import { ProfileEditComponent } from './profile/profile-edit/profile-edit.component';
 import { ProfileComponent } from './profile/profile.component';
 import { HomeComponent } from './home/home.component';
 import { LogInComponent } from './auth/log-in/log-in.component';
@@ -12,7 +13,8 @@ const routes: Routes = [
   { path: 'log-in', component: LogInComponent },
   { path: 'home', component: HomeComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
-  { path: 'profile', component: ProfileComponent }
+  { path: 'profile', component: ProfileComponent },
+  { path: 'profile/edit', component: ProfileEditComponent }
 ];
 
 @NgModule({

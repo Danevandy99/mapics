@@ -10,7 +10,7 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthService {
-  userData: firebase.User; // Save logged in user data
+  user: BehaviorSubject<firebase.User> = new BehaviorSubject<firebase.User>(null); // Save logged in user data
   isLoggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(JSON.parse(localStorage.getItem('user')) !== null);
 
   constructor(
@@ -23,12 +23,13 @@ export class AuthService {
     logged in and setting up null when logged out */
     this.auth.authState.subscribe(user => {
       if (user) {
-        this.userData = user;
+        this.user.next(user);
         this.isLoggedIn.next(true);
-        localStorage.setItem('user', JSON.stringify(this.userData));
+        localStorage.setItem('user', JSON.stringify(this.user.value));
         JSON.parse(localStorage.getItem('user'));
       } else {
         localStorage.setItem('user', null);
+        this.user.next(null);
         this.isLoggedIn.next(false);
         JSON.parse(localStorage.getItem('user'));
       }
@@ -42,7 +43,7 @@ export class AuthService {
         this.ngZone.run(() => {
           this.router.navigate(['home']);
         });
-        this.setUserData(result.user);
+        this.setUser(result.user);
       }).catch((error) => {
         console.log(error.message)
         throw error;
@@ -53,7 +54,7 @@ export class AuthService {
   signUp(email, password) {
     return this.auth.createUserWithEmailAndPassword(email, password)
       .then((result) => {
-        this.setUserData(result.user);
+        this.setUser(result.user);
         this.ngZone.run(() => {
           this.router.navigate(['home']);
         });
@@ -81,7 +82,7 @@ export class AuthService {
        this.ngZone.run(() => {
           this.router.navigate(['dashboard']);
         })
-      this.setUserData(result.user);
+      this.setUser(result.user);
     }).catch((error) => {
       console.log(error)
       throw error;
@@ -91,16 +92,16 @@ export class AuthService {
   /* Setting up user data when sign in with username/password,
   sign up with username/password and sign in with social auth
   provider in Firestore database using AngularFirestore + AngularFirestoreDocument service */
-  setUserData(user) {
+  setUser(user: firebase.User) {
     const userRef: AngularFirestoreDocument<any> = this.store.doc(`users/${user.uid}`);
-    const userData: Partial<UserSettings> = {
+    const userSettings: Partial<UserSettings> = {
       userId: user.uid,
       email: user.email,
       displayName: user.displayName,
       photoURL: user.photoURL,
       emailVerified: user.emailVerified
     }
-    return userRef.set(userData, {
+    return userRef.set(userSettings, {
       merge: true
     })
   }

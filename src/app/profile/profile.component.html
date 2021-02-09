@@ -1,7 +1,8 @@
 <div class="container d-flex flex-column align-items-center pb-3">
-  <div class="cover-photo">
+  <div class="cover-photo position-relative">
     <img class="w-100 h-100"
       src="https://images.unsplash.com/photo-1579691099788-42394ae932d8?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=3578&q=80" />
+    <button class="btn btn-primary" routerLink="edit">Edit Profile</button>
   </div>
   <div class="profile-photo">
     <img class="img-thumbnail" width="200" height="200"
@@ -30,21 +31,21 @@
     <li class="nav-item">
       <a
         class="nav-link"
-        [ngClass]="{ 'active': profileTabState === 0 }"
+        [ngClass]="{ 'active': profileTabState === ProfileTabState.HIGHLIGHTS }"
         (click)="profileTabState = 0"
         aria-current="page">Highlights</a>
     </li>
     <li class="nav-item">
       <a
         class="nav-link"
-        [ngClass]="{ 'active': profileTabState === 1 }"
+        [ngClass]="{ 'active': profileTabState === ProfileTabState.GRID }"
         (click)="profileTabState = 1"
         aria-current="page">Grid</a>
     </li>
     <li class="nav-item">
       <a
         class="nav-link"
-        [ngClass]="{ 'active': profileTabState === 2 }"
+        [ngClass]="{ 'active': profileTabState === ProfileTabState.VERTICAL }"
         (click)="profileTabState = 2"
         aria-current="page">Vertical</a>
     </li>

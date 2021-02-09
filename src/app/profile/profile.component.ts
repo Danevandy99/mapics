@@ -12,6 +12,8 @@ export enum ProfileTabState {
   styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit {
+  // This looks weird, but it's so we can access the enum in the html
+  ProfileTabState = ProfileTabState;
 
   profileTabState: ProfileTabState = ProfileTabState.HIGHLIGHTS;
   highlights: string[] = [

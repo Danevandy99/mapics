@@ -6,6 +6,12 @@
     border-bottom-right-radius: 20px;
     object-fit: cover;
   }
+
+  button {
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+  }
 }
 
 .profile-photo {

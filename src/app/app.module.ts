@@ -15,6 +15,7 @@ import { HomeComponent } from './home/home.component';
 import { HeaderComponent } from './components/header/header.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ProfileComponent } from './profile/profile.component';
+import { ProfileEditComponent } from './profile/profile-edit/profile-edit.component';
 
 const config = {
   apiKey: "AIzaSyBiBcN3svwTQk_jOdfVz239d0zZX4FKthE",
@@ -35,6 +36,7 @@ const config = {
     HomeComponent,
     HeaderComponent,
     ProfileComponent,
+    ProfileEditComponent,
   ],
   imports: [
     BrowserModule,
