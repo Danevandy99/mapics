@@ -1,5 +1,6 @@
+import { AngularFireAuth } from '@angular/fire/auth';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { filter, map, switchMap } from 'rxjs/operators';
+import { filter, first, map, switchMap } from 'rxjs/operators';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AuthService } from './../../shared/service/auth.service';
 import { UserSettings } from './../../shared/models/user';
@@ -10,6 +11,14 @@ interface userFormValue {
   email: string;
   username: string;
   bio: string;
+  displayName: string;
+}
+
+enum SaveButtonState {
+  UNSAVED = 0,
+  SAVING = 1,
+  SAVED_SUCCESSFULLY = 2,
+  NOT_SAVED_SUCCESSFULLY = 3
 }
 
 @Component({
@@ -18,17 +27,24 @@ interface userFormValue {
   styleUrls: ['./profile-edit.component.scss']
 })
 export class ProfileEditComponent implements OnInit {
+
+  SaveButtonState = SaveButtonState;
+
   user: firebase.User;
   userSettings: UserSettings;
   userForm: FormGroup = new FormGroup({
-    email: new FormControl('', [Validators.required]),
+    email: new FormControl('', [Validators.required, Validators.email]),
     username: new FormControl('', [Validators.required]),
-    bio: new FormControl('', [Validators.required])
-  })
+    bio: new FormControl('', [Validators.required]),
+    displayName: new FormControl('', [Validators.required])
+  });
+  saveButtonState: SaveButtonState = SaveButtonState.UNSAVED;
+  firebaseError: string;
 
   constructor(
     private authService: AuthService,
-    private store: AngularFirestore
+    private store: AngularFirestore,
+    private auth: AngularFireAuth
   ) { }
 
   ngOnInit(): void {
@@ -49,7 +65,10 @@ export class ProfileEditComponent implements OnInit {
     .subscribe((userSettings: UserSettings) => {
       this.userSettings = userSettings;
       this.userForm.patchValue({
-        email: this.userSettings.email
+        email: this.userSettings.email,
+        username: this.userSettings.username,
+        displayName: this.userSettings.displayName,
+        bio: this.userSettings.bio
       })
     });
   }
@@ -62,11 +81,38 @@ export class ProfileEditComponent implements OnInit {
     });
   }
 
-  saveChanges(form: userFormValue) {
+  async saveChanges(form: userFormValue) {
+    this.saveButtonState = SaveButtonState.SAVING;
+
+    try {
+      // TODO add field to form that requires password to make changes.
+      //const credential = (await this.auth.signInWithEmailAndPassword()
+      //this.user.reauthenticateWithCredential((await this.auth.credential.pipe(first()).toPromise()).credential);
+
+      if (this.user.email !== form.email) {
+        await this.user.updateEmail(form.email);
+      }
+    } catch(error) {
+        this.firebaseError = error.message;
+        this.saveButtonState = SaveButtonState.NOT_SAVED_SUCCESSFULLY;
+        setTimeout(() => this.saveButtonState = SaveButtonState.UNSAVED, 5000);
+        return;
+    }
+
     this.store.collection('users').doc(this.user.uid).update({
       email: form.email,
       username: form.username,
-      bio: form.bio
+      bio: form.bio,
+      displayName: form.displayName
+    })
+    .then(() => {
+      this.saveButtonState = SaveButtonState.SAVED_SUCCESSFULLY;
+      setTimeout(() => this.saveButtonState = SaveButtonState.UNSAVED, 5000);
+    })
+    .catch(error => {
+      this.firebaseError = error.message;
+      this.saveButtonState = SaveButtonState.NOT_SAVED_SUCCESSFULLY;
+      setTimeout(() => this.saveButtonState = SaveButtonState.UNSAVED, 5000);
     })
    }
 }

@@ -2,7 +2,7 @@
 $font-family-base: 'Quicksand', sans-serif;
 $font-weight-base: 600;
 $theme-colors: (
-  "primary": #9198e5
+  "primary": #6f78d6
 );
 
 /* Importing Bootstrap SCSS file. */
@@ -10,4 +10,9 @@ $theme-colors: (
 
 .nav-pills .nav-link {
   border-radius: 12px;
+}
+
+.spinner-border-sm {
+  border-width: 0.05em;
+  vertical-align: middle;
 }
