@@ -1,0 +1,27 @@
+.bg-black {
+  background-color: black;
+  height: 100vh;
+
+  .background {
+    opacity: 0.5;
+    background-image: url('https://scontent.fmci2-1.fna.fbcdn.net/v/t1.15752-9/148833833_212507847250261_4109499179030827817_n.jpg?_nc_cat=111&ccb=3&_nc_sid=ae9488&_nc_ohc=eFiCbvVxBO0AX-EYvDO&_nc_ht=scontent.fmci2-1.fna&oh=71f9c1ea8c93e952e2141efd40b1480f&oe=604CA7ED');
+    filter: blur(8px);
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    z-index: 1;
+  }
+
+  .main-image {
+    aspect-ratio: 9 / 16;
+    object-fit: contain;
+    z-index: 2;
+    background-color: black;
+    border-radius: 20px;
+  }
+}
+

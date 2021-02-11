@@ -7,9 +7,6 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-
-  isNavbarCollapsed: boolean = true;
-
   constructor(
     public authService: AuthService
   ) { }
