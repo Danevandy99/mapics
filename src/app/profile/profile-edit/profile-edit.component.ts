@@ -12,6 +12,7 @@ interface userFormValue {
   username: string;
   bio: string;
   displayName: string;
+  password: string;
 }
 
 enum SaveButtonState {
@@ -36,7 +37,8 @@ export class ProfileEditComponent implements OnInit {
     email: new FormControl('', [Validators.required, Validators.email]),
     username: new FormControl('', [Validators.required]),
     bio: new FormControl('', [Validators.required]),
-    displayName: new FormControl('', [Validators.required])
+    displayName: new FormControl('', [Validators.required]),
+    password: new FormControl('', [Validators.required])
   });
   saveButtonState: SaveButtonState = SaveButtonState.UNSAVED;
   firebaseError: string;
@@ -69,7 +71,7 @@ export class ProfileEditComponent implements OnInit {
         username: this.userSettings.username,
         displayName: this.userSettings.displayName,
         bio: this.userSettings.bio
-      })
+      });
     });
   }
 
@@ -85,34 +87,40 @@ export class ProfileEditComponent implements OnInit {
     this.saveButtonState = SaveButtonState.SAVING;
 
     try {
-      // TODO add field to form that requires password to make changes.
-      //const credential = (await this.auth.signInWithEmailAndPassword()
-      //this.user.reauthenticateWithCredential((await this.auth.credential.pipe(first()).toPromise()).credential);
+      // Sign in to make sure password is correct.
+      await this.auth.signInWithEmailAndPassword(this.userSettings.email, form.password);
 
+      // If the user changed their email, update their Firebase Auth record.
       if (this.user.email !== form.email) {
         await this.user.updateEmail(form.email);
       }
+
+      // Update user settings
+      await this.store.collection('users').doc(this.user.uid).update({
+        email: form.email,
+        username: form.username,
+        bio: form.bio,
+        displayName: form.displayName
+      });
+
+      // Change button state
+      this.saveButtonState = SaveButtonState.SAVED_SUCCESSFULLY;
     } catch(error) {
         this.firebaseError = error.message;
         this.saveButtonState = SaveButtonState.NOT_SAVED_SUCCESSFULLY;
-        setTimeout(() => this.saveButtonState = SaveButtonState.UNSAVED, 5000);
-        return;
+        this.userForm.patchValue({
+          email: this.userSettings.email,
+          username: this.userSettings.username,
+          displayName: this.userSettings.displayName,
+          bio: this.userSettings.bio
+        });
+    } finally {
+      setTimeout(() => this.saveButtonState = SaveButtonState.UNSAVED, 5000);
+      this.userForm.patchValue({
+        password: ''
+      });
+      this.userForm.controls['password'].markAsPristine();
+      this.userForm.controls['password'].markAsUntouched();
     }
-
-    this.store.collection('users').doc(this.user.uid).update({
-      email: form.email,
-      username: form.username,
-      bio: form.bio,
-      displayName: form.displayName
-    })
-    .then(() => {
-      this.saveButtonState = SaveButtonState.SAVED_SUCCESSFULLY;
-      setTimeout(() => this.saveButtonState = SaveButtonState.UNSAVED, 5000);
-    })
-    .catch(error => {
-      this.firebaseError = error.message;
-      this.saveButtonState = SaveButtonState.NOT_SAVED_SUCCESSFULLY;
-      setTimeout(() => this.saveButtonState = SaveButtonState.UNSAVED, 5000);
-    })
    }
 }
