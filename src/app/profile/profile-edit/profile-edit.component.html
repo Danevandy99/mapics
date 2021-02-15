@@ -1,8 +1,8 @@
 <div class="container mt-3">
   <button class="btn btn-primary" routerLink="/profile"><fa-icon icon="arrow-left" class="mr-2"></fa-icon>Back to Profile</button>
-  <form class="mt-3" [formGroup]="userForm" (ngSubmit)="saveChanges(userForm.value)">
+  <form class="mt-3" [formGroup]="userForm" (ngSubmit)="saveUserChanges(userForm.value)">
     <!-- Disable form when user and user settings haven't loaded yet. -->
-    <fieldset [disabled]="!user || !userSettings || saveButtonState === SaveButtonState.SAVING">
+    <fieldset [disabled]="!user || saveUserButtonState === SaveButtonState.SAVING">
       <div class="form-group">
         <label for="emailAddress">Email address</label>
         <input
@@ -17,48 +17,6 @@
         <div *ngIf="userForm.get('email').dirty || userForm.get('email').touched" class="ml-2 text-danger d-flex flex-column mt-1">
           <small *ngIf="userForm.get('email').errors?.required">Email address is required.</small>
           <small *ngIf="userForm.get('email').errors?.email">Must enter a valid email address.</small>
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="username">Username</label>
-        <input
-          type="text"
-          class="form-control"
-          id="username"
-          [ngClass]="(userForm.get('username').dirty || userForm.get('username').touched) ? (!userForm.get('username').errors  ? 'is-valid' : 'is-invalid') : ''"
-          placeholder="Username"
-          formControlName="username">
-        <!-- Errors -->
-        <div *ngIf="userForm.get('username').dirty || userForm.get('username').touched" class="ml-2 text-danger d-flex flex-column mt-1">
-          <small *ngIf="userForm.get('username').errors?.required">Username is required.</small>
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="username">Display Name</label>
-        <input
-          type="text"
-          class="form-control"
-          id="username"
-          [ngClass]="(userForm.get('displayName').dirty || userForm.get('displayName').touched) ? (!userForm.get('displayName').errors  ? 'is-valid' : 'is-invalid') : ''"
-          placeholder="Display Name"
-          formControlName="displayName">
-        <!-- Errors -->
-        <div *ngIf="userForm.get('displayName').dirty || userForm.get('displayName').touched" class="ml-2 text-danger d-flex flex-column mt-1">
-          <small *ngIf="userForm.get('displayName').errors?.required">Display name is required.</small>
-        </div>
-      </div>
-      <div class="form-group">
-        <label for="bio">Bio</label>
-        <textarea
-          class="form-control"
-          id="bio"
-          [ngClass]="(userForm.get('bio').dirty || userForm.get('bio').touched) ? (!userForm.get('bio').errors  ? 'is-valid' : 'is-invalid') : ''"
-          placeholder="Bio"
-          formControlName="bio">
-        </textarea>
-        <!-- Errors -->
-        <div *ngIf="userForm.get('bio').dirty || userForm.get('bio').touched" class="ml-2 text-danger d-flex flex-column mt-1">
-          <small *ngIf="userForm.get('bio').errors?.required">Bio is required.</small>
         </div>
       </div>
       <div class="form-group">
@@ -87,7 +45,6 @@
         <!-- Errors -->
         <div *ngIf="userForm.get('newPasswordConfirmation').dirty || userForm.get('newPasswordConfirmation').touched" class="ml-2 text-danger d-flex flex-column mt-1">
           <small *ngIf="userForm.errors?.passwordsDoNotMatch">Passwords must match.</small>
-          <small *ngIf="firebaseError">{{ firebaseError }}</small>
         </div>
       </div>
       <div class="form-group">
@@ -104,30 +61,103 @@
           <small *ngIf="userForm.get('password').errors?.required">Your current password is required to save your changes.</small>
         </div>
       </div>
-      <div *ngIf="firebaseError" class="ml-2 text-danger d-flex flex-column mb-3">
-        <small>{{ firebaseError }}</small>
+      <div *ngIf="saveUserFirebaseError" class="ml-2 text-danger d-flex flex-column mb-3">
+        <small>{{ saveUserFirebaseError }}</small>
       </div>
       <button
         type="submit"
         class="btn btn-primary d-flex flex-row align-items-center"
-        [ngClass]="{'btn-success' : saveButtonState === SaveButtonState.SAVED_SUCCESSFULLY, 'btn-danger' : saveButtonState === SaveButtonState.NOT_SAVED_SUCCESSFULLY }"
-        [disabled]="!userForm.valid || saveButtonState !== SaveButtonState.UNSAVED">
-        <ng-container *ngIf="saveButtonState === SaveButtonState.SAVING">
+        [ngClass]="{'btn-success' : saveUserButtonState === SaveButtonState.SAVED_SUCCESSFULLY, 'btn-danger' : saveUserButtonState === SaveButtonState.NOT_SAVED_SUCCESSFULLY }"
+        [disabled]="!userForm.valid || saveUserButtonState !== SaveButtonState.UNSAVED">
+        <ng-container *ngIf="saveUserButtonState === SaveButtonState.SAVING">
           <span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span>
           <span class="sr-only">Loading...</span>
           Saving Changes
         </ng-container>
-        <ng-container *ngIf="saveButtonState === SaveButtonState.SAVED_SUCCESSFULLY">
+        <ng-container *ngIf="saveUserButtonState === SaveButtonState.SAVED_SUCCESSFULLY">
           <fa-icon icon="check" class="mr-2"></fa-icon>
           Changes Saved
         </ng-container>
-        <ng-container *ngIf="saveButtonState === SaveButtonState.NOT_SAVED_SUCCESSFULLY">
+        <ng-container *ngIf="saveUserButtonState === SaveButtonState.NOT_SAVED_SUCCESSFULLY">
           <fa-icon icon="times" class="mr-2"></fa-icon>
           Changes Not Saved
         </ng-container>
-        <ng-container *ngIf="saveButtonState === SaveButtonState.UNSAVED">
+        <ng-container *ngIf="saveUserButtonState === SaveButtonState.UNSAVED">
           <fa-icon icon="save" class="mr-2"></fa-icon>
-          Save Changes
+          Save User
+        </ng-container>
+      </button>
+    </fieldset>
+  </form>
+  <form class="mt-3" [formGroup]="userSettingsForm" (ngSubmit)="saveUserSettingsChanges(userSettingsForm.value)">
+    <!-- Disable form when user and user settings haven't loaded yet. -->
+    <fieldset [disabled]="!userSettings || saveUserSettingsButtonState === SaveButtonState.SAVING">
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input
+          type="text"
+          class="form-control"
+          id="username"
+          [ngClass]="(userSettingsForm.get('username').dirty || userSettingsForm.get('username').touched) ? (!userSettingsForm.get('username').errors  ? 'is-valid' : 'is-invalid') : ''"
+          placeholder="Username"
+          formControlName="username">
+        <!-- Errors -->
+        <div *ngIf="userSettingsForm.get('username').dirty || userSettingsForm.get('username').touched" class="ml-2 text-danger d-flex flex-column mt-1">
+          <small *ngIf="userSettingsForm.get('username').errors?.required">Username is required.</small>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="username">Display Name</label>
+        <input
+          type="text"
+          class="form-control"
+          id="username"
+          [ngClass]="(userSettingsForm.get('displayName').dirty || userSettingsForm.get('displayName').touched) ? (!userSettingsForm.get('displayName').errors  ? 'is-valid' : 'is-invalid') : ''"
+          placeholder="Display Name"
+          formControlName="displayName">
+        <!-- Errors -->
+        <div *ngIf="userSettingsForm.get('displayName').dirty || userSettingsForm.get('displayName').touched" class="ml-2 text-danger d-flex flex-column mt-1">
+          <small *ngIf="userSettingsForm.get('displayName').errors?.required">Display name is required.</small>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="bio">Bio</label>
+        <textarea
+          class="form-control"
+          id="bio"
+          [ngClass]="(userSettingsForm.get('bio').dirty || userSettingsForm.get('bio').touched) ? (!userSettingsForm.get('bio').errors  ? 'is-valid' : 'is-invalid') : ''"
+          placeholder="Bio"
+          formControlName="bio">
+        </textarea>
+        <!-- Errors -->
+        <div *ngIf="userSettingsForm.get('bio').dirty || userSettingsForm.get('bio').touched" class="ml-2 text-danger d-flex flex-column mt-1">
+          <small *ngIf="userSettingsForm.get('bio').errors?.required">Bio is required.</small>
+        </div>
+      </div>
+      <div *ngIf="saveUserSettingsFirebaseError" class="ml-2 text-danger d-flex flex-column mb-3">
+        <small>{{ saveUserSettingsFirebaseError }}</small>
+      </div>
+      <button
+        type="submit"
+        class="btn btn-primary d-flex flex-row align-items-center"
+        [ngClass]="{'btn-success' : saveUserSettingsButtonState === SaveButtonState.SAVED_SUCCESSFULLY, 'btn-danger' : saveUserSettingsButtonState === SaveButtonState.NOT_SAVED_SUCCESSFULLY }"
+        [disabled]="!userSettingsForm.valid || saveUserSettingsButtonState !== SaveButtonState.UNSAVED">
+        <ng-container *ngIf="saveUserSettingsButtonState === SaveButtonState.SAVING">
+          <span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span>
+          <span class="sr-only">Loading...</span>
+          Saving Changes
+        </ng-container>
+        <ng-container *ngIf="saveUserSettingsButtonState === SaveButtonState.SAVED_SUCCESSFULLY">
+          <fa-icon icon="check" class="mr-2"></fa-icon>
+          Changes Saved
+        </ng-container>
+        <ng-container *ngIf="saveUserSettingsButtonState === SaveButtonState.NOT_SAVED_SUCCESSFULLY">
+          <fa-icon icon="times" class="mr-2"></fa-icon>
+          Changes Not Saved
+        </ng-container>
+        <ng-container *ngIf="saveUserSettingsButtonState === SaveButtonState.UNSAVED">
+          <fa-icon icon="save" class="mr-2"></fa-icon>
+          Save User Settings
         </ng-container>
       </button>
     </fieldset>

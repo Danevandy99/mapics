@@ -9,12 +9,15 @@ import firebase from 'firebase';
 
 interface userFormValue {
   email: string;
-  username: string;
-  bio: string;
-  displayName: string;
   newPassword: string;
   newPasswordConfirmation: string;
   password: string;
+}
+
+interface userSettingsFormValue {
+  username: string;
+  bio: string;
+  displayName: string;
 }
 
 enum SaveButtonState {
@@ -35,17 +38,25 @@ export class ProfileEditComponent implements OnInit {
 
   user: firebase.User;
   userSettings: UserSettings;
+
   userForm: FormGroup = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
-    username: new FormControl('', [Validators.required]),
-    bio: new FormControl('', [Validators.required]),
-    displayName: new FormControl('', [Validators.required]),
     newPassword: new FormControl('', [Validators.minLength(8)]),
     newPasswordConfirmation: new FormControl('', [Validators.minLength(8)]),
     password: new FormControl('', [Validators.required])
   }, [this.passwordsMatch]);
-  saveButtonState: SaveButtonState = SaveButtonState.UNSAVED;
-  firebaseError: string;
+
+  userSettingsForm: FormGroup = new FormGroup({
+    username: new FormControl('', [Validators.required]),
+    bio: new FormControl('', [Validators.required]),
+    displayName: new FormControl('', [Validators.required])
+  });
+
+  saveUserButtonState: SaveButtonState = SaveButtonState.UNSAVED;
+  saveUserSettingsButtonState: SaveButtonState = SaveButtonState.UNSAVED;
+
+  saveUserFirebaseError: string;
+  saveUserSettingsFirebaseError: string;
 
   constructor(
     private authService: AuthService,
@@ -71,11 +82,14 @@ export class ProfileEditComponent implements OnInit {
     .subscribe((userSettings: UserSettings) => {
       this.userSettings = userSettings;
       this.userForm.patchValue({
-        email: this.userSettings.email,
+        email: this.userSettings.email
+      });
+
+      this.userSettingsForm.patchValue({
         username: this.userSettings.username,
         displayName: this.userSettings.displayName,
         bio: this.userSettings.bio
-      });
+      })
     });
   }
 
@@ -87,8 +101,8 @@ export class ProfileEditComponent implements OnInit {
     });
   }
 
-  async saveChanges(form: userFormValue) {
-    this.saveButtonState = SaveButtonState.SAVING;
+  async saveUserChanges(form: userFormValue) {
+    this.saveUserButtonState = SaveButtonState.SAVING;
 
     try {
       // Sign in to make sure password is correct.
@@ -102,6 +116,10 @@ export class ProfileEditComponent implements OnInit {
         // If the email is updated successfully, make sure the userSettings.email gets updated,
         // otherwise future settings updates while on this page will continue to use the old password.
         this.userSettings.email = form.email;
+
+        await this.store.collection('users').doc(this.user.uid).update({
+          email: form.email
+        });
       }
 
       // Check if the user updated their password by checking that their new password does not
@@ -110,30 +128,16 @@ export class ProfileEditComponent implements OnInit {
         await this.user.updatePassword(form.newPassword);
       }
 
-      // TODO: Make sure username is not taken before updating a user.
-
-
-      // Update user settings
-      await this.store.collection('users').doc(this.user.uid).update({
-        email: form.email,
-        username: form.username,
-        bio: form.bio,
-        displayName: form.displayName
-      });
-
       // Change button state
-      this.saveButtonState = SaveButtonState.SAVED_SUCCESSFULLY;
+      this.saveUserButtonState = SaveButtonState.SAVED_SUCCESSFULLY;
     } catch(error) {
-        this.firebaseError = error.message;
-        this.saveButtonState = SaveButtonState.NOT_SAVED_SUCCESSFULLY;
+        this.saveUserFirebaseError = error.message;
+        this.saveUserButtonState = SaveButtonState.NOT_SAVED_SUCCESSFULLY;
         this.userForm.patchValue({
-          email: this.userSettings.email,
-          username: this.userSettings.username,
-          displayName: this.userSettings.displayName,
-          bio: this.userSettings.bio
+          email: this.userSettings.email
         });
     } finally {
-      setTimeout(() => this.saveButtonState = SaveButtonState.UNSAVED, 5000);
+      setTimeout(() => this.saveUserButtonState = SaveButtonState.UNSAVED, 5000);
       this.userForm.patchValue({
         password: '',
         newPassword: '',
@@ -146,6 +150,34 @@ export class ProfileEditComponent implements OnInit {
       this.userForm.controls['newPassword'].markAsUntouched();
       this.userForm.controls['newPasswordConfirmation'].markAsPristine();
       this.userForm.controls['newPasswordConfirmation'].markAsUntouched();
+    }
+   }
+
+   async saveUserSettingsChanges(form: userSettingsFormValue) {
+    this.saveUserSettingsButtonState = SaveButtonState.SAVING;
+
+    try {
+      // TODO: Make sure username is not taken before updating a user.
+
+
+      // Update user settings
+      await this.store.collection('users').doc(this.user.uid).update({
+        username: form.username,
+        bio: form.bio,
+        displayName: form.displayName
+      });
+
+      this.saveUserSettingsButtonState = SaveButtonState.SAVED_SUCCESSFULLY;
+    } catch(error) {
+      this.saveUserSettingsFirebaseError = error.message;
+      this.saveUserSettingsButtonState = SaveButtonState.NOT_SAVED_SUCCESSFULLY;
+      this.userSettingsForm.patchValue({
+        username: this.userSettings.username,
+        displayName: this.userSettings.displayName,
+        bio: this.userSettings.bio
+      });
+    } finally {
+      setTimeout(() => this.saveUserSettingsButtonState = SaveButtonState.UNSAVED, 5000);
     }
    }
 
