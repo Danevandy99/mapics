@@ -1,13 +1,13 @@
-<div class="footer-bar">
+<div class="footer-bar" [ngClass]="{ 'bg-light': !isHomePage }">
     <div class="m-auto d-flex justify-content-center">
       <ng-container *ngIf="authService.isLoggedIn | async">
-        <a href="#" routerLinkActive="active" routerLink="/home"><span class="iconify" data-icon="akar-icons:home" data-inline="false"></span></a>
-        <a href="#" routerLinkActive="active" routerLink="/profile"><span class="iconify" data-icon="akar-icons:person" data-inline="false"></span></a>
-        <a href="#" routerLinkActive="active" (click)="authService.logout()"><span class="iconify" data-icon="akar-icons:link-out" data-inline="false"></span></a>
+        <a routerLinkActive="active" routerLink="/home" class="footer-bar-button" [ngClass]="{ 'darker-text': !isHomePage }"><span class="iconify" data-icon="akar-icons:home" data-inline="false"></span></a>
+        <a routerLinkActive="active" routerLink="/profile" class="footer-bar-button" [ngClass]="{ 'darker-text': !isHomePage }"><span class="iconify" data-icon="akar-icons:person" data-inline="false"></span></a>
+        <a href="#" routerLinkActive="active" (click)="authService.logout()" class="footer-bar-button" [ngClass]="{ 'darker-text': !isHomePage }"><span class="iconify" data-icon="akar-icons:link-out" data-inline="false"></span></a>
       </ng-container>
       <ng-container *ngIf="!(authService.isLoggedIn | async)">
-        <a [routerLink]="['sign-up']">Sign Up</a>
-        <a [routerLink]="['log-in']">Log In</a>
+        <a class="btn btn-primary mr-2" routerLink="/sign-up">Sign Up</a>
+        <a class="btn btn-secondary" routerLink="/log-in">Log In</a>
       </ng-container>
     </div>
 </div>

@@ -6,10 +6,13 @@
   width: 100%;
   z-index: 3;
   padding: 20px;
-  backdrop-filter: blur(10px);
 
-  a {
+  a.footer-bar-button {
     color: white;
+
+    &.darker-text {
+      color: #6c757d;
+    }
 
     &.active {
       color: #6f78d6;

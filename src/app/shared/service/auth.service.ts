@@ -108,10 +108,12 @@ export class AuthService {
 
   // Logout
   logout() {
-    return this.auth.signOut().then(() => {
-      localStorage.removeItem('user');
-      this.router.navigate(['log-in']);
-    })
+    if (confirm("Are you sure you want to logout?")) {
+      this.auth.signOut().then(() => {
+        localStorage.removeItem('user');
+        this.router.navigate(['log-in']);
+      });
+    }
   }
 
 }
