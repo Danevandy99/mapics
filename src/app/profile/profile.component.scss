@@ -70,5 +70,13 @@
       object-fit: cover;
     }
   }
+  
+  .profile-grid{
+    img {
+      border-radius: 10px;
+      aspect-ratio: 9 / 9;
+      object-fit: cover;
+    }
+  }
 
 }
