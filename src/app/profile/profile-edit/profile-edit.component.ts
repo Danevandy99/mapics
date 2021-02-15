@@ -1,5 +1,5 @@
 import { AngularFireAuth } from '@angular/fire/auth';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
 import { filter, first, map, switchMap } from 'rxjs/operators';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AuthService } from './../../shared/service/auth.service';
@@ -12,6 +12,8 @@ interface userFormValue {
   username: string;
   bio: string;
   displayName: string;
+  newPassword: string;
+  newPasswordConfirmation: string;
   password: string;
 }
 
@@ -38,8 +40,10 @@ export class ProfileEditComponent implements OnInit {
     username: new FormControl('', [Validators.required]),
     bio: new FormControl('', [Validators.required]),
     displayName: new FormControl('', [Validators.required]),
+    newPassword: new FormControl('', [Validators.minLength(8)]),
+    newPasswordConfirmation: new FormControl('', [Validators.minLength(8)]),
     password: new FormControl('', [Validators.required])
-  });
+  }, [this.passwordsMatch]);
   saveButtonState: SaveButtonState = SaveButtonState.UNSAVED;
   firebaseError: string;
 
@@ -88,11 +92,19 @@ export class ProfileEditComponent implements OnInit {
 
     try {
       // Sign in to make sure password is correct.
+      // Also, make sure to use the userSetting.email instead of the form.email.
+      // Otherwise this will try to sign the user in with their new email they just submitted.
       await this.auth.signInWithEmailAndPassword(this.userSettings.email, form.password);
 
       // If the user changed their email, update their Firebase Auth record.
       if (this.user.email !== form.email) {
         await this.user.updateEmail(form.email);
+      }
+
+      // Check if the user updated their password by checking that their new password does not
+      // match their old password entered to make changes and that the new password is not empty.
+      if (form.newPassword && form.password !== form.newPassword) {
+        await this.user.updatePassword(form.newPassword);
       }
 
       // Update user settings
@@ -117,10 +129,21 @@ export class ProfileEditComponent implements OnInit {
     } finally {
       setTimeout(() => this.saveButtonState = SaveButtonState.UNSAVED, 5000);
       this.userForm.patchValue({
-        password: ''
+        password: '',
+        newPassword: '',
+        newPasswordConfirmation: '',
       });
+
       this.userForm.controls['password'].markAsPristine();
       this.userForm.controls['password'].markAsUntouched();
+      this.userForm.controls['newPassword'].markAsPristine();
+      this.userForm.controls['newPassword'].markAsUntouched();
+      this.userForm.controls['newPasswordConfirmation'].markAsPristine();
+      this.userForm.controls['newPasswordConfirmation'].markAsUntouched();
     }
    }
+
+   passwordsMatch(control: AbstractControl): { passwordsDoNotMatch: boolean } {
+    return (control.get('newPassword').value !== control.get('newPasswordConfirmation').value) ? { passwordsDoNotMatch: true } : null;
+  }
 }
