@@ -8,10 +8,6 @@ $theme-colors: (
 /* Importing Bootstrap SCSS file. */
 @import '~bootstrap/scss/bootstrap';
 
-.nav-pills .nav-link {
-  border-radius: 12px;
-}
-
 .spinner-border-sm {
   border-width: 0.05em;
   vertical-align: middle;

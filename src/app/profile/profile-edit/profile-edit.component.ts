@@ -99,6 +99,9 @@ export class ProfileEditComponent implements OnInit {
       // If the user changed their email, update their Firebase Auth record.
       if (this.user.email !== form.email) {
         await this.user.updateEmail(form.email);
+        // If the email is updated successfully, make sure the userSettings.email gets updated,
+        // otherwise future settings updates while on this page will continue to use the old password.
+        this.userSettings.email = form.email;
       }
 
       // Check if the user updated their password by checking that their new password does not
@@ -106,6 +109,9 @@ export class ProfileEditComponent implements OnInit {
       if (form.newPassword && form.password !== form.newPassword) {
         await this.user.updatePassword(form.newPassword);
       }
+
+      // TODO: Make sure username is not taken before updating a user.
+
 
       // Update user settings
       await this.store.collection('users').doc(this.user.uid).update({

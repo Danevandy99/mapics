@@ -55,4 +55,12 @@ export class ProfileComponent implements OnInit {
       this.userSettings = userSettings;
     });
   }
+
+  showChangeCoverPhotoPopup() {
+
+  }
+
+  showChangeProfilePhotoPopup() {
+
+  }
 }

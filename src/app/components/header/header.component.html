@@ -3,7 +3,7 @@
       <ng-container *ngIf="authService.isLoggedIn | async">
         <a routerLinkActive="active" routerLink="/home" class="footer-bar-button" [ngClass]="{ 'darker-text': !isHomePage }"><span class="iconify" data-icon="akar-icons:home" data-inline="false"></span></a>
         <a routerLinkActive="active" routerLink="/profile" class="footer-bar-button" [ngClass]="{ 'darker-text': !isHomePage }"><span class="iconify" data-icon="akar-icons:person" data-inline="false"></span></a>
-        <a href="#" routerLinkActive="active" (click)="authService.logout()" class="footer-bar-button" [ngClass]="{ 'darker-text': !isHomePage }"><span class="iconify" data-icon="akar-icons:link-out" data-inline="false"></span></a>
+        <a routerLinkActive="active" (click)="authService.logout()" class="footer-bar-button" [ngClass]="{ 'darker-text': !isHomePage }"><span class="iconify" data-icon="akar-icons:link-out" data-inline="false"></span></a>
       </ng-container>
       <ng-container *ngIf="!(authService.isLoggedIn | async)">
         <a class="btn btn-primary mr-2" routerLink="/sign-up">Sign Up</a>

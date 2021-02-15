@@ -19,6 +19,8 @@ import { ProfileEditComponent } from './profile/profile-edit/profile-edit.compon
 import { FaIconLibrary, FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
+import { PostComponent } from './components/post/post.component';
+import { ChangeProfilePhotoPopupComponent } from './profile/change-profile-photo-popup/change-profile-photo-popup.component';
 
 const config = {
   apiKey: "AIzaSyBiBcN3svwTQk_jOdfVz239d0zZX4FKthE",
@@ -40,6 +42,8 @@ const config = {
     HeaderComponent,
     ProfileComponent,
     ProfileEditComponent,
+    PostComponent,
+    ChangeProfilePhotoPopupComponent,
   ],
   imports: [
     BrowserModule,
