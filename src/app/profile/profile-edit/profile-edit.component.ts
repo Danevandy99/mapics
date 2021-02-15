@@ -158,7 +158,16 @@ export class ProfileEditComponent implements OnInit {
 
     try {
       // TODO: Make sure username is not taken before updating a user.
+      const matchingUsernamesCount = await this.store.collection('users', ref => ref.where('username', '==', form.username))
+        .get()
+        .pipe(
+          map(snapshot => snapshot.docs.length)
+        )
+        .toPromise();
 
+      if (matchingUsernamesCount > 0) {
+        throw { message: form.username + ' is already in use. Please choose another username' };
+      }
 
       // Update user settings
       await this.store.collection('users').doc(this.user.uid).update({
