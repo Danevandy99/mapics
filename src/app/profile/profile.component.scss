@@ -10,7 +10,7 @@
       object-fit: cover;
     }
 
-    button {
+    app-change-profile-photo-popup {
       position: absolute;
       top: 20px;
       left: 50%;
@@ -19,7 +19,7 @@
     }
 
     &:hover {
-      button {
+      app-change-profile-photo-popup {
         visibility: visible;
       }
     }
@@ -36,7 +36,7 @@
       border-radius: 50%;
     }
 
-    button {
+    app-change-profile-photo-popup {
       position: absolute;
       top: 50%;
       left: 50%;
@@ -45,7 +45,7 @@
     }
 
     &:hover {
-      button {
+      app-change-profile-photo-popup {
         visibility: visible;
       }
     }
@@ -70,7 +70,7 @@
       object-fit: cover;
     }
   }
-  
+
   .profile-grid{
     img {
       border-radius: 10px;
