@@ -157,11 +157,11 @@ export class ProfileEditComponent implements OnInit {
     this.saveUserSettingsButtonState = SaveButtonState.SAVING;
 
     try {
-      // TODO: Make sure username is not taken before updating a user.
+      // Make sure username is not taken before updating a user.
       const matchingUsernamesCount = await this.store.collection('users', ref => ref.where('username', '==', form.username))
         .get()
         .pipe(
-          map(snapshot => snapshot.docs.length)
+          map(snapshot => snapshot.docs.filter(doc => doc.id !== this.user.uid).length)
         )
         .toPromise();
 

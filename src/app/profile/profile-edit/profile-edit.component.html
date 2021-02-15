@@ -107,11 +107,11 @@
         </div>
       </div>
       <div class="form-group">
-        <label for="username">Display Name</label>
+        <label for="display-name">Display Name</label>
         <input
           type="text"
           class="form-control"
-          id="username"
+          id="display-name"
           [ngClass]="(userSettingsForm.get('displayName').dirty || userSettingsForm.get('displayName').touched) ? (!userSettingsForm.get('displayName').errors  ? 'is-valid' : 'is-invalid') : ''"
           placeholder="Display Name"
           formControlName="displayName">
