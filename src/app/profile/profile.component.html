@@ -2,12 +2,13 @@
   <div class="cover-photo position-relative">
     <img class="w-100 h-100"
       src="https://images.unsplash.com/photo-1579691099788-42394ae932d8?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=3578&q=80" />
-      <button class="btn btn-secondary" (click)="showChangeCoverPhotoPopup()"><fa-icon icon="sync"></fa-icon> Change Cover Photo</button>
+      <app-change-profile-photo-popup (click)="showChangeCoverPhotoPopup()">Change Cover Photo</app-change-profile-photo-popup>
   </div>
+  
   <div class="profile-photo">
     <img class="img-thumbnail" width="200" height="200"
       src="https://scontent.fmci1-3.fna.fbcdn.net/v/t1.0-9/56580500_952946725036947_7436980033324843008_o.jpg?_nc_cat=105&ccb=2&_nc_sid=09cbfe&_nc_ohc=1Q4T2Vo6igkAX_gnwe1&_nc_ht=scontent.fmci1-3.fna&oh=2db7965d440cd32492064407157194e6&oe=6042C391" />
-      <button class="btn btn-secondary" (click)="showChangeProfilePhotoPopup()"><fa-icon icon="sync"></fa-icon> Change</button>
+      <app-change-profile-photo-popup (click)="showChangeProfilePhotoPopup()"></app-change-profile-photo-popup>
   </div>
   <div class="profile-info text-center">
     <h1 class="mt-1 mb-0">{{ userSettings?.displayName }}</h1>
@@ -52,7 +53,7 @@
         aria-current="page">Vertical</a>
     </li>
   </ul>
-
+  
   <hr class="border w-100">
   <div class="profile-highlights row flex-grow-1 w-100 pt-2" *ngIf="profileTabState === 0">
     <div class="col-2 px-1" *ngFor="let highlight of highlights">
