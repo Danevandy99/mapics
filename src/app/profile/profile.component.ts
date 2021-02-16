@@ -17,6 +17,8 @@ export enum ProfileTabState {
   styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit {
+  photoSelected;
+
   // This looks weird, but it's so we can access the enum in the html
   ProfileTabState = ProfileTabState;
 
@@ -57,10 +59,10 @@ export class ProfileComponent implements OnInit {
   }
 
   showChangeCoverPhotoPopup() {
-
+    this.photoSelected = "cover";
   }
 
   showChangeProfilePhotoPopup() {
-
+    this.photoSelected = "profile";
   }
 }
