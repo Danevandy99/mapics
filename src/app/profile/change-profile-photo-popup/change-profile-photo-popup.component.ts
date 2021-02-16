@@ -93,6 +93,10 @@ export class ChangeProfilePhotoPopupComponent implements OnInit {
           fileRef.getDownloadURL()
           .subscribe((url: string) => {
             const updateObject = (this.photoSelected === 'profile-photo') ? { photoURL: url } : { coverPhotoURL: url };
+            this.userSettings = {
+              ...this.userSettings,
+              ...updateObject
+            }
             this.store.collection('users').doc(this.userID).update(updateObject);
 
             this.refreshUserSettings.emit(null);
