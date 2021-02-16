@@ -6,23 +6,28 @@
   width: 100%;
   z-index: 3;
   padding: 20px;
+  margin: auto;
 
-  a.footer-bar-button {
-    color: white;
-    cursor: pointer;
+  > div {
+    width: 100%;
+    max-width: calc(100vh / 16 * 9);
 
-    &.darker-text {
-      color: #6c757d;
+    a.footer-bar-button {
+      color: white;
+      cursor: pointer;
+
+      &.darker-text {
+        color: #6c757d;
+      }
+
+      &.active {
+        color: #6f78d6;
+      }
     }
 
-    &.active {
-      color: #6f78d6;
+    .iconify {
+      width: 25px;
+      height: 25px;
     }
-  }
-
-  .iconify {
-    width: 25px;
-    height: 25px;
-    margin: 0px 30px;
   }
 }

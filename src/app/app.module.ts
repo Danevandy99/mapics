@@ -21,6 +21,8 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
 import { PostComponent } from './components/post/post.component';
 import { ChangeProfilePhotoPopupComponent } from './profile/change-profile-photo-popup/change-profile-photo-popup.component';
+import { CreatePostComponent } from './create-post/create-post.component';
+import { WebcamModule } from 'ngx-webcam';
 
 const config = {
   apiKey: "AIzaSyBiBcN3svwTQk_jOdfVz239d0zZX4FKthE",
@@ -44,6 +46,7 @@ const config = {
     ProfileEditComponent,
     PostComponent,
     ChangeProfilePhotoPopupComponent,
+    CreatePostComponent,
   ],
   imports: [
     BrowserModule,
@@ -56,6 +59,7 @@ const config = {
     FormsModule,
     ReactiveFormsModule,
     FontAwesomeModule,
+    WebcamModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

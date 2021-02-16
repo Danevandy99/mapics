@@ -1,0 +1,7 @@
+<div class="camera-container">
+  <webcam [trigger]="triggerObservable" (imageCapture)="handleImage($event)"></webcam>
+  <button class="trigger-button" (click)="triggerSnapshot()"><span class="iconify" data-icon="ph:record-fill" data-inline="false"></span></button>
+  <div class="snapshot" *ngIf="webcamImage">
+    <img [src]="webcamImage?.imageAsDataUrl"/>
+  </div>
+</div>

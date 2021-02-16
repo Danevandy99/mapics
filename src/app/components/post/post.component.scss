@@ -46,4 +46,39 @@
       margin: 0px 10px;
     }
   }
+
+  .actions {
+    position: absolute;
+    right: 20px;
+    bottom: 100px;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+
+    .iconify {
+      width: 30px;
+      height: 30px;
+      color: white;
+      margin: 20px 0px;
+    }
+  }
+
+  .post-info {
+    position: absolute;
+    left: 20px;
+    right: 20px;
+    padding-right: 50px;
+    bottom: 100px;
+    z-index: 3;
+
+    p {
+      font-size: 10pt;
+      color: lightgray;
+      margin-bottom: 5px;
+
+      b {
+        color: white;
+      }
+    }
+  }
 }

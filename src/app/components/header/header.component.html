@@ -1,8 +1,9 @@
 <div class="footer-bar" [ngClass]="{ 'bg-light': !isHomePage }">
-    <div class="m-auto d-flex justify-content-center">
+    <div class="m-auto d-flex justify-content-around">
       <ng-container *ngIf="authService.isLoggedIn | async">
         <a routerLinkActive="active" routerLink="/home" class="footer-bar-button" [ngClass]="{ 'darker-text': !isHomePage }"><span class="iconify" data-icon="akar-icons:home" data-inline="false"></span></a>
         <a routerLinkActive="active" routerLink="/profile" class="footer-bar-button" [ngClass]="{ 'darker-text': !isHomePage }"><span class="iconify" data-icon="akar-icons:person" data-inline="false"></span></a>
+        <a routerLinkActive="active" routerLink="/create-post" class="footer-bar-button" [ngClass]="{ 'darker-text': !isHomePage }"><span class="iconify" data-icon="akar-icons:plus" data-inline="false"></span></a>
         <a routerLinkActive="active" (click)="authService.logout()" class="footer-bar-button" [ngClass]="{ 'darker-text': !isHomePage }"><span class="iconify" data-icon="akar-icons:link-out" data-inline="false"></span></a>
       </ng-container>
       <ng-container *ngIf="!(authService.isLoggedIn | async)">

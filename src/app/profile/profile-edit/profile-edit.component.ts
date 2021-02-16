@@ -102,6 +102,7 @@ export class ProfileEditComponent implements OnInit {
   }
 
   async saveUserChanges(form: userFormValue) {
+    this.saveUserFirebaseError = null;
     this.saveUserButtonState = SaveButtonState.SAVING;
 
     try {
@@ -154,6 +155,7 @@ export class ProfileEditComponent implements OnInit {
    }
 
    async saveUserSettingsChanges(form: userSettingsFormValue) {
+     this.saveUserSettingsFirebaseError = null;
     this.saveUserSettingsButtonState = SaveButtonState.SAVING;
 
     try {
