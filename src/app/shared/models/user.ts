@@ -3,6 +3,7 @@ export interface UserSettings {
   email: string;
   displayName: string;
   photoURL: string;
+  coverPhotoURL: string;
   emailVerified: boolean;
   radius: number;
   username: string;

@@ -58,11 +58,7 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  showChangeCoverPhotoPopup() {
-    this.photoSelected = "cover";
-  }
-
-  showChangeProfilePhotoPopup() {
-    this.photoSelected = "profile";
+  refreshUserSettings() {
+    this.getUserSettings();
   }
 }
