@@ -4,3 +4,10 @@ img{
     object-fit: cover;
     aspect-ratio: 9 / 9;
 }
+
+.custom-file {
+
+  input {
+    visibility: hidden;
+  }
+}

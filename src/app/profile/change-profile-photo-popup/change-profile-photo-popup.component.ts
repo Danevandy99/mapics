@@ -3,7 +3,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { AuthService } from '../../shared/service/auth.service';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/storage';
-import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+import {NgbModal, ModalDismissReasons, NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import { filter, finalize, map, tap, switchMap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
@@ -17,6 +17,7 @@ export class ChangeProfilePhotoPopupComponent implements OnInit {
   @Input() photoSelected: string;
   @Output() refreshUserSettings: EventEmitter<any> = new EventEmitter();
 
+  uploading: boolean = false;
   file: File;
   fileUrl: string = 'https://www.jamiemaison.com/creating-a-simple-text-editor/placeholder.png';
   userID;
@@ -54,6 +55,7 @@ export class ChangeProfilePhotoPopupComponent implements OnInit {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      this.cleanUpAndReset();
     });
   }
 
@@ -80,7 +82,8 @@ export class ChangeProfilePhotoPopupComponent implements OnInit {
     fileReader.readAsDataURL(this.file);
   }
 
-  async savePhoto() {
+  async savePhoto(content: NgbActiveModal) {
+    this.uploading = true;
     if (!this.file) return;
     var filePath = "users/" + this.userID + "/photos/profilePhotos/" + this.photoSelected;
     var fileRef = this.afStorage.ref(filePath)
@@ -98,11 +101,18 @@ export class ChangeProfilePhotoPopupComponent implements OnInit {
               ...updateObject
             }
             this.store.collection('users').doc(this.userID).update(updateObject);
-
+            this.cleanUpAndReset();
             this.refreshUserSettings.emit(null);
+            this.uploading = false;
+            content.close();
           });
         })
      )
     .subscribe()
+  }
+
+  cleanUpAndReset() {
+    this.file = null;
+    this.downloadURL = null;
   }
 }

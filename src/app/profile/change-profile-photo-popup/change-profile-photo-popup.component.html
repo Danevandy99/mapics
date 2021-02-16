@@ -1,4 +1,4 @@
-<button class="btn btn-secondary" (click)="open(content)"><fa-icon icon="sync"></fa-icon> Change Photo</button>
+<button class="btn btn-secondary" (click)="open(content)"><fa-icon icon="sync"></fa-icon></button>
 <ng-template #content let-modal>
     <div class="modal-header">
       <h4 class="modal-title" id="modal-basic-title">Update {{ photoSelected === 'profile-photo' ? 'Profile Picture' : 'Cover Photo'}}</h4>
@@ -9,18 +9,20 @@
     <div class="modal-body">
       <form>
           <div class="row">
-              <div class="col"><img class="img-thumbnail" style="width: 200px; height:200px"  [src]="((photoSelected === 'profile-photo') ? userSettings?.photoURL : userSettings?.coverPhotoURL) || currentPhoto"><p>Current Photo</p></div>
-              <div class="col"><img class="img-thumbnail" style="width: 200px; height:200px" *ngIf="fileUrl" [src]="fileUrl"><p>New Photo</p></div>
+              <div class="col d-flex flex-column justify-content-center align-items-center"><img class="img-thumbnail" style="width: 200px; height:200px"  [src]="((photoSelected === 'profile-photo') ? userSettings?.photoURL : userSettings?.coverPhotoURL) || currentPhoto"><p>Current Photo</p></div>
+              <div class="col d-flex flex-column justify-content-center align-items-center"><img class="img-thumbnail" style="width: 200px; height:200px" *ngIf="fileUrl" [src]="fileUrl"><p>New Photo</p></div>
           </div>
-          <div class="mt-3">
+          <div class="mt-3" *ngIf="!file">
             <label for="img">Select image:</label>
-            <input class="px-1" type="file" (change)="upload($event)" id="img" name="img" accept="image/*">
+            <div class="custom-file">
+              <input type="file"  id="img" name="img" accept="image/*" (change)="upload($event)">
+              <label class="custom-file-label" for="img">Choose image...</label>
+            </div>
           </div>
       </form>
-      <p><ngb-progressbar type="primary" [value]="uploadPercent | async"></ngb-progressbar></p>
-      <p>{{ downloadURL | async }}</p>
+      <p *ngIf="uploading"><ngb-progressbar type="primary" [value]="uploadPercent | async"></ngb-progressbar></p>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-outline-dark" (click)="savePhoto()">Save</button>
+      <button type="button" class="btn btn-outline-dark" [disabled]="!file || uploading" (click)="savePhoto(modal)">Save</button>
     </div>
   </ng-template>
