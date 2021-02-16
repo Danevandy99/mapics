@@ -22,7 +22,8 @@
       </form>
       <p *ngIf="uploading"><ngb-progressbar type="primary" [value]="uploadPercent | async"></ngb-progressbar></p>
     </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-outline-dark" [disabled]="!file || uploading" (click)="savePhoto(modal)">Save</button>
+    <div class="modal-footer d-flex flex-row">
+      <button type="button" class="btn btn-primary flex-grow-1" [disabled]="!file || uploading" (click)="savePhoto(modal)">Save</button>
+      <button type="button" class="btn btn-outline-dark flex-grow-1" (click)="modal.close(); cleanUpAndReset()">Cancel</button>
     </div>
   </ng-template>

@@ -114,5 +114,6 @@ export class ChangeProfilePhotoPopupComponent implements OnInit {
   cleanUpAndReset() {
     this.file = null;
     this.downloadURL = null;
+    this.fileUrl = 'https://www.jamiemaison.com/creating-a-simple-text-editor/placeholder.png';
   }
 }
