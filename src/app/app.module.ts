@@ -23,6 +23,7 @@ import { PostComponent } from './components/post/post.component';
 import { ChangeProfilePhotoPopupComponent } from './profile/change-profile-photo-popup/change-profile-photo-popup.component';
 import { CreatePostComponent } from './create-post/create-post.component';
 import { WebcamModule } from 'ngx-webcam';
+import { CommentComponent } from './components/post/comment/comment.component';
 
 const config = {
   apiKey: "AIzaSyBiBcN3svwTQk_jOdfVz239d0zZX4FKthE",
@@ -47,6 +48,7 @@ const config = {
     PostComponent,
     ChangeProfilePhotoPopupComponent,
     CreatePostComponent,
+    CommentComponent,
   ],
   imports: [
     BrowserModule,

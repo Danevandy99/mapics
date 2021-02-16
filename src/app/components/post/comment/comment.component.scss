@@ -1,0 +1,27 @@
+.iconify {
+    width: 30px;
+    height: 30px;
+    color: white;
+    margin: 20px 0px;
+  }
+button{
+    background-color: transparent;
+    border: 0px;
+}
+::ng-deep .modal-content{
+    height: 70vh;
+    width: 100vw;
+    max-width: 100vw;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    margin: 0;
+}
+::ng-deep .modal-dialog{
+    width: 100vw;
+    max-width: 100vw;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    margin: 0;
+}
