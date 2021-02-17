@@ -70,11 +70,17 @@
     }
   }
 
-  .profile-grid{
+  .profile-grid {
+    flex-wrap: wrap;
+    width: 100%;
+
     img {
       border-radius: 10px;
-      aspect-ratio: 9 / 9;
       object-fit: cover;
+      aspect-ratio: 9 / 16;
+      min-width: 100px;
+      flex: 1 0 33%;
+      padding: 5px;
     }
   }
 

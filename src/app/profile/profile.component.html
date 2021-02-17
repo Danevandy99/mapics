@@ -1,14 +1,14 @@
 <div class="container d-flex flex-column align-items-center pb-3">
   <div class="cover-photo position-relative w-100 mt-3">
-    <img class="w-100 h-100 shimmer"
-      [src]="userSettings?.coverPhotoURL || blankImage" />
-      <app-change-profile-photo-popup [photoSelected]="'cover-photo'" (refreshUserSettings)="refreshUserSettings()"></app-change-profile-photo-popup>
+    <img class="w-100 h-100 shimmer" [src]="userSettings?.coverPhotoURL || blankImage" />
+    <app-change-profile-photo-popup [photoSelected]="'cover-photo'" (refreshUserSettings)="refreshUserSettings()">
+    </app-change-profile-photo-popup>
   </div>
 
   <div class="profile-photo">
-    <img class="img-thumbnail shimmer" width="200" height="200"
-      [src]="userSettings?.photoURL || blankImage" />
-      <app-change-profile-photo-popup [photoSelected]="'profile-photo'" (refreshUserSettings)="refreshUserSettings()"></app-change-profile-photo-popup>
+    <img class="img-thumbnail shimmer" width="200" height="200" [src]="userSettings?.photoURL || blankImage" />
+    <app-change-profile-photo-popup [photoSelected]="'profile-photo'" (refreshUserSettings)="refreshUserSettings()">
+    </app-change-profile-photo-popup>
   </div>
   <div class="profile-info text-center">
     <h1 class="mt-1 mb-0">{{ userSettings?.displayName }}</h1>
@@ -32,39 +32,28 @@
   </div>
   <ul class="nav nav-pills nav-fill profile-menu row mt-1">
     <li class="nav-item">
-      <a
-        class="nav-link"
-        [ngClass]="{ 'active': profileTabState === ProfileTabState.HIGHLIGHTS }"
-        (click)="profileTabState = 0"
-        aria-current="page">Highlights</a>
+      <a class="nav-link" [ngClass]="{ 'active': profileTabState === ProfileTabState.HIGHLIGHTS }"
+        (click)="profileTabState = 0" aria-current="page">Highlights</a>
     </li>
     <li class="nav-item">
-      <a
-        class="nav-link"
-        [ngClass]="{ 'active': profileTabState === ProfileTabState.GRID }"
-        (click)="profileTabState = 1"
-        aria-current="page">Grid</a>
+      <a class="nav-link" [ngClass]="{ 'active': profileTabState === ProfileTabState.GRID }"
+        (click)="profileTabState = 1" aria-current="page">Grid</a>
     </li>
     <li class="nav-item">
-      <a
-        class="nav-link"
-        [ngClass]="{ 'active': profileTabState === ProfileTabState.VERTICAL }"
-        (click)="profileTabState = 2"
-        aria-current="page">Vertical</a>
+      <a class="nav-link" [ngClass]="{ 'active': profileTabState === ProfileTabState.VERTICAL }"
+        (click)="profileTabState = 2" aria-current="page">Vertical</a>
     </li>
   </ul>
 
   <hr class="border w-100">
   <div class="profile-highlights row flex-grow-1 w-100 pt-2" *ngIf="profileTabState === 0">
     <div class="col-2 px-1" *ngFor="let highlight of highlights">
-      <img class="w-100 shimmer" [src]="highlight"/>
+      <img class="w-100 shimmer" [src]="highlight" />
     </div>
   </div>
 
   <div class="profile-grid d-flex" *ngIf="profileTabState === 1">
-    <div class="col-2 px-1 flex-1" *ngFor="let post of gridPosts">
-      <img class="w-100 shimmer" [src]="post"/>
-    </div>
+    <img class="w-100 shimmer" *ngFor="let post of gridPosts" [src]="post.photoUrls[0]" />
   </div>
   <div class="profile-vertical" *ngIf="profileTabState === 2">
   </div>

@@ -4,6 +4,7 @@ import { UserSettings } from './../shared/models/user';
 import { Component, OnInit } from '@angular/core';
 import { filter, map, switchMap } from 'rxjs/operators';
 import firebase from 'firebase';
+import { Post } from '../shared/models/post';
 
 export enum ProfileTabState {
   HIGHLIGHTS = 0,
@@ -32,7 +33,7 @@ export class ProfileComponent implements OnInit {
     "https://images.unsplash.com/photo-1612717850360-8f8452ddc72a?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1001&q=80",
     "https://images.unsplash.com/photo-1612698977733-6a35ecd94b5f?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1567&q=80",
   ];
-  gridPosts: string[] = [...this.highlights];
+  gridPosts: Post[] = [];
   blankImage: string = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
 
   constructor(
@@ -42,6 +43,7 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUserSettings();
+    this.getUserPosts();
   }
 
   getUserSettings() {
@@ -56,6 +58,23 @@ export class ProfileComponent implements OnInit {
     )
     .subscribe((userSettings: UserSettings) => {
       this.userSettings = userSettings;
+    });
+  }
+
+  getUserPosts() {
+    this.authService.user.pipe(
+      filter(user => !!user),
+      switchMap((user: firebase.User) => {
+        return this.store.collection('users').doc(user.uid).collection('posts').get();
+      }),
+      map(docs => {
+        return docs.docs.map(doc => {
+          return { ...<object>doc.data(), postId: doc.id } as Post;
+        });
+      })
+    )
+    .subscribe((posts: Post[]) => {
+      this.gridPosts = posts;
     });
   }
 
