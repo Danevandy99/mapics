@@ -1,7 +1,49 @@
-<div class="camera-container">
+<div class="camera-container" *ngIf="createPostState === CreatePostState.CAMERA">
   <webcam [trigger]="triggerObservable" (imageCapture)="handleImage($event)"></webcam>
   <button class="trigger-button" (click)="triggerSnapshot()"><span class="iconify" data-icon="ph:record-fill" data-inline="false"></span></button>
-  <div class="snapshot" *ngIf="webcamImage">
+  <div class="snapshot" *ngIf="webcamImage" (click)="createPostState = CreatePostState.PREVIEW">
     <img [src]="webcamImage?.imageAsDataUrl"/>
   </div>
+</div>
+<div class="preview-container d-flex flex-column px-2 mt-2" *ngIf="createPostState === CreatePostState.PREVIEW">
+  <img class="image-preview mb-2" [src]="webcamImage?.imageAsDataUrl"/>
+  <form [formGroup]="newPostForm" class="mb-3" (ngSubmit)="createPost(newPostForm.value)">
+    <div class="form-group w-100 d-block">
+      <label for="caption">Caption ({{ newPostForm.get('caption').value.length }}/200)</label>
+      <input
+        type="text"
+        class="form-control"
+        id="caption"
+        [ngClass]="(newPostForm.get('caption').dirty || newPostForm.get('caption').touched) ? (!newPostForm.get('caption').errors  ? 'is-valid' : 'is-invalid') : ''"
+        placeholder="Caption"
+        formControlName="caption">
+      <!-- Errors -->
+      <div *ngIf="newPostForm.get('caption').dirty || newPostForm.get('caption').touched" class="ml-2 text-danger d-flex flex-column mt-1">
+        <small *ngIf="newPostForm.get('caption').errors?.required">Caption is required.</small>
+      </div>
+    </div>
+    <button
+        type="submit"
+        class="btn btn-primary d-flex flex-row align-items-center justify-content-center w-100"
+        [ngClass]="{'btn-success' : createPostButtonState === CreatePostButtonState.SAVED_SUCCESSFULLY, 'btn-danger' : createPostButtonState === CreatePostButtonState.NOT_SAVED_SUCCESSFULLY }"
+        [disabled]="!newPostForm.valid || createPostButtonState !== CreatePostButtonState.UNSAVED">
+        <ng-container *ngIf="createPostButtonState === CreatePostButtonState.SAVING">
+          <span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span>
+          <span class="sr-only">Loading...</span>
+          Creating Post
+        </ng-container>
+        <ng-container *ngIf="createPostButtonState === CreatePostButtonState.SAVED_SUCCESSFULLY">
+          <fa-icon icon="check" class="mr-2"></fa-icon>
+          Post Created!
+        </ng-container>
+        <ng-container *ngIf="createPostButtonState === CreatePostButtonState.NOT_SAVED_SUCCESSFULLY">
+          <fa-icon icon="times" class="mr-2"></fa-icon>
+          Could not create post.
+        </ng-container>
+        <ng-container *ngIf="createPostButtonState === CreatePostButtonState.UNSAVED">
+          <fa-icon icon="save" class="mr-2"></fa-icon>
+          Create Post
+        </ng-container>
+      </button>
+  </form>
 </div>

@@ -1,6 +1,25 @@
+import { Router } from '@angular/router';
+import { AuthService } from './../shared/service/auth.service';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { WebcamImage, WebcamInitError, WebcamUtil } from 'ngx-webcam';
 import { Observable, Subject } from 'rxjs';
+import { filter, first, switchMap } from 'rxjs/operators';
+import { Post } from '../shared/models/post';
+import { AngularFireStorage } from '@angular/fire/storage';
+
+enum CreatePostState {
+  CAMERA = 0,
+  PREVIEW = 1
+}
+
+enum CreatePostButtonState {
+  UNSAVED = 0,
+  SAVING = 1,
+  SAVED_SUCCESSFULLY = 2,
+  NOT_SAVED_SUCCESSFULLY = 3
+}
 
 @Component({
   selector: 'app-create-post',
@@ -9,8 +28,16 @@ import { Observable, Subject } from 'rxjs';
 })
 export class CreatePostComponent implements OnInit {
 
+  public createPostButtonState = CreatePostButtonState.UNSAVED;
+  public CreatePostButtonState = CreatePostButtonState;
+  public CreatePostState = CreatePostState;
+  public createPostState: CreatePostState = CreatePostState.CAMERA;
   public multipleWebcamsAvailable = false;
   public deviceId: string;
+  public newPostForm: FormGroup = new FormGroup({
+    caption: new FormControl('', [Validators.required, Validators.maxLength(200)])
+  });
+  public createPostFirebaseError: string;
 
   // latest snapshot
   public webcamImage: WebcamImage = null;
@@ -23,8 +50,50 @@ export class CreatePostComponent implements OnInit {
   // switch to next / previous / specific webcam; true/false: forward/backwards, string: deviceId
   private nextWebcam: Subject<boolean|string> = new Subject<boolean|string>();
 
-  constructor() {
+  constructor(
+    private store: AngularFirestore,
+    private authService: AuthService,
+    private afStorage: AngularFireStorage,
+    private router: Router
+  ) {
 
+  }
+
+  async createPost(form: { caption: string }) {
+    try {
+      this.createPostButtonState = CreatePostButtonState.SAVING;
+
+      const user = await this.authService.user.pipe(filter(user => !!user), first()).toPromise();
+      const postId = this.store.createId();
+      const filePath = 'users/' + user.uid + '/photos/posts/' + postId;
+      const fileRef = this.afStorage.ref(filePath);
+      const task = this.afStorage.upload(filePath, this.dataURLtoFile(this.webcamImage.imageAsDataUrl, postId));
+
+      await task.snapshotChanges().toPromise();
+
+      const photoUrl = await fileRef.getDownloadURL().toPromise();
+
+      const post: Partial<Post> = {
+        authorId: user.uid,
+        photoUrls: [photoUrl],
+        caption: form.caption,
+        timePosted: Date.now(),
+        location: {
+          latitude: 0,
+          longitude: 0
+        }
+      };
+
+      await this.store.collection('users').doc(user.uid).collection('posts').add(post);
+
+      this.createPostButtonState = CreatePostButtonState.SAVED_SUCCESSFULLY;
+      setTimeout(() => this.router.navigateByUrl("/home"), 1000);
+    } catch(error) {
+      this.createPostFirebaseError = error.message;
+      this.createPostButtonState = CreatePostButtonState.NOT_SAVED_SUCCESSFULLY;
+    } finally {
+      setTimeout(() => this.createPostButtonState = CreatePostButtonState.UNSAVED, 5000);
+    }
   }
 
   public triggerSnapshot(): void {
@@ -65,5 +134,20 @@ export class CreatePostComponent implements OnInit {
   public get nextWebcamObservable(): Observable<boolean|string> {
     return this.nextWebcam.asObservable();
   }
+
+  private dataURLtoFile(dataurl, filename) {
+
+    var arr = dataurl.split(','),
+        mime = arr[0].match(/:(.*?);/)[1],
+        bstr = atob(arr[1]),
+        n = bstr.length,
+        u8arr = new Uint8Array(n);
+
+    while(n--){
+        u8arr[n] = bstr.charCodeAt(n);
+    }
+
+    return new File([u8arr], filename, {type:mime});
+}
 
 }

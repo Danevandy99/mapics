@@ -2,10 +2,9 @@
   <img class="background h-100 w-100" [src]="post.photoUrls[0]"/>
   <img class="main-image h-100" [src]="post.photoUrls[0]"/>
   <div class="profile-section">
-    <img class="img-thumbnail" width="200" height="200"
-    src="https://a.wattpad.com/cover/59082093-256-k931497.jpg" />
-    <h5 class="profile-name text-light">Aaron Ediger</h5>
-    
+    <img class="img-thumbnail shimmer" width="200" height="200"
+    [src]="post.author?.photoURL || blankImage" />
+    <h5 class="profile-name text-light">{{ post.author?.displayName }}</h5>
   </div>
   <div class="actions">
     <span class="iconify" data-icon="ic:outline-add-reaction" data-inline="false"></span>
@@ -13,7 +12,7 @@
     <span class="iconify" data-icon="fa-solid:share" data-inline="false"></span>
   </div>
   <div class="post-info">
-    <p><b>@AaronEdiger</b></p>
-    <p>This is just a short description of this post</p>
+    <p><b>@{{ post.author?.username }}</b></p>
+    <p>{{ post.caption }}</p>
   </div>
 </div>
