@@ -30,17 +30,17 @@
     </div>
     <button class="btn btn-secondary w-100 mb-3" routerLink="edit">Edit Profile</button>
   </div>
-  <ul class="nav nav-pills nav-fill profile-menu row mt-1">
-    <li class="nav-item">
-      <a class="nav-link" [ngClass]="{ 'active': profileTabState === ProfileTabState.HIGHLIGHTS }"
+  <ul class="nav nav-pills nav-fill profile-menu d-flex flex-row mt-1 w-100">
+    <li class="flex-fill">
+      <a class="nav-link text-center" [ngClass]="{ 'active': profileTabState === ProfileTabState.HIGHLIGHTS }"
         (click)="profileTabState = 0" aria-current="page">Highlights</a>
     </li>
-    <li class="nav-item">
-      <a class="nav-link" [ngClass]="{ 'active': profileTabState === ProfileTabState.GRID }"
+    <li class="flex-fill">
+      <a class="nav-link text-center" [ngClass]="{ 'active': profileTabState === ProfileTabState.GRID }"
         (click)="profileTabState = 1" aria-current="page">Grid</a>
     </li>
-    <li class="nav-item">
-      <a class="nav-link" [ngClass]="{ 'active': profileTabState === ProfileTabState.VERTICAL }"
+    <li class="flex-fill">
+      <a class="nav-link text-center" [ngClass]="{ 'active': profileTabState === ProfileTabState.VERTICAL }"
         (click)="profileTabState = 2" aria-current="page">Vertical</a>
     </li>
   </ul>
