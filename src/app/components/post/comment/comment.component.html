@@ -6,22 +6,13 @@
       </button>
     </div>
     <div class="modal-body">
-        <ul class="list-group">
+        <ul class="list-group" *ngFor="let comment of comments;">
             <div class="list-group-item px-0">
                 <div class="d-flex flex-direction-row ">
-                    <img src="https://www.jamiemaison.com/creating-a-simple-text-editor/placeholder.png">
+                    <img src="{{comment.author?.photoURL}}">
                     <div class="px-2 text-wrap">
-                        <p class="text-dark mb-0">@username</p>
-                        <p class="px-1 mb-0 text-muted">Test comments</p>
-                    </div>
-                </div>
-            </div>
-            <div class="list-group-item px-0">
-                <div class="d-flex flex-direction-row ">
-                    <img src="https://www.jamiemaison.com/creating-a-simple-text-editor/placeholder.png">
-                    <div class="px-2 text-wrap">
-                        <p class="text-dark mb-0">@username</p>
-                        <p class="px-1 mb-0 text-muted">asdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdf</p>
+                        <p class="text-dark mb-0">{{comment.author?.username}}</p>
+                        <p class="mb-0 text-muted">{{comment.commentText}}</p>
                     </div>
                 </div>
             </div>
@@ -29,8 +20,8 @@
 
     </div>
     <div class="modal-footer">
-        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-      <button type="button" class="btn btn-primary" (click)="modal.close('Save click')">Comment</button>
+    <textarea #comment class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+      <button type="button" class="btn btn-primary" (click)="submitComment(comment.value)">Comment</button>
     </div>
   </ng-template>
 
