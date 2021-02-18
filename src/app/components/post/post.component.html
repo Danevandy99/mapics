@@ -7,7 +7,7 @@
     <h5 class="profile-name text-light">{{ post.author?.displayName }}</h5>
   </div>
   <div class="actions">
-    <span class="iconify" data-icon="ic:outline-add-reaction" data-inline="false"></span>
+    <app-reaction [post]="post"></app-reaction>
     <app-comment></app-comment>
     <span class="iconify" data-icon="fa-solid:share" data-inline="false"></span>
   </div>

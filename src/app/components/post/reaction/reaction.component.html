@@ -1,0 +1,18 @@
+<ng-template #content let-modal>
+  <div class="modal-body">
+    <emoji-mart title="Pick your emoji…" emoji="point_up"
+      [style]="{ width: '100%'}"
+      (emojiSelect)="react($event)"
+      [color]="'#6f78d6'"
+      [darkMode]="false"
+      [showPreview]="false">
+    </emoji-mart>
+  </div>
+  <div class="modal-footer d-flex flex-row">
+    <button type="button" class="btn btn-secondary flex-fill" aria-label="Close" (click)="modal.dismiss('Cross click')">Cancel</button>
+    <button type="button" class="btn btn-primary flex-fill" (click)="modal.close('Save click')">React {{ selectedReaction?.native }}</button>
+  </div>
+</ng-template>
+
+<button class="reaction" (click)="open(content)"><span class="iconify" data-icon="ic:outline-add-reaction" data-inline="false"></span></button>
+

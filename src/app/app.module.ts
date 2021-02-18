@@ -24,6 +24,8 @@ import { ChangeProfilePhotoPopupComponent } from './profile/change-profile-photo
 import { CreatePostComponent } from './create-post/create-post.component';
 import { WebcamModule } from 'ngx-webcam';
 import { CommentComponent } from './components/post/comment/comment.component';
+import { PickerModule } from '@ctrl/ngx-emoji-mart';
+import { ReactionComponent } from './components/post/reaction/reaction.component';
 
 const config = {
   apiKey: "AIzaSyBiBcN3svwTQk_jOdfVz239d0zZX4FKthE",
@@ -49,6 +51,7 @@ const config = {
     ChangeProfilePhotoPopupComponent,
     CreatePostComponent,
     CommentComponent,
+    ReactionComponent,
   ],
   imports: [
     BrowserModule,
@@ -62,6 +65,7 @@ const config = {
     ReactiveFormsModule,
     FontAwesomeModule,
     WebcamModule,
+    PickerModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
