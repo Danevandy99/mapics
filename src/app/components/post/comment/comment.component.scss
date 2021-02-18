@@ -4,13 +4,14 @@
     color: white;
     margin: 20px 0px;
   }
-button{
+
+.comment {
     background-color: transparent;
     border: 0px;
 }
 
 img{
-    width: 40px; 
+    width: 40px;
     height: 40px;
     border-radius: 50%;
 }
@@ -40,6 +41,7 @@ img{
         border: 0px;
     }
   }
+
 textarea {
     resize: none;
  }

@@ -11,18 +11,18 @@
                 <div class="d-flex flex-direction-row ">
                     <img src="https://www.jamiemaison.com/creating-a-simple-text-editor/placeholder.png">
                     <div class="px-2 text-wrap">
-                        <p class="text-secondary mb-0">@username</p>
-                        <p class="px-1 mb-0">Test comments</p>
-                    </div>                    
+                        <p class="text-dark mb-0">@username</p>
+                        <p class="px-1 mb-0 text-muted">Test comments</p>
+                    </div>
                 </div>
             </div>
             <div class="list-group-item px-0">
                 <div class="d-flex flex-direction-row ">
                     <img src="https://www.jamiemaison.com/creating-a-simple-text-editor/placeholder.png">
                     <div class="px-2 text-wrap">
-                        <p class="text-secondary mb-0">@username</p>
-                        <p class="px-1 mb-0">asdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdf</p>
-                    </div>                    
+                        <p class="text-dark mb-0">@username</p>
+                        <p class="px-1 mb-0 text-muted">asdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdf</p>
+                    </div>
                 </div>
             </div>
           </ul>
@@ -30,9 +30,9 @@
     </div>
     <div class="modal-footer">
         <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-      <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Comment</button>
+      <button type="button" class="btn btn-primary" (click)="modal.close('Save click')">Comment</button>
     </div>
   </ng-template>
-  
-  
-  <button (click)="open(content)"><span class="iconify" data-icon="fa-regular:comment-alt" data-inline="false"></span></button>
+
+
+  <button class="comment" (click)="open(content)"><span class="iconify" data-icon="fa-regular:comment-alt" data-inline="false"></span></button>
