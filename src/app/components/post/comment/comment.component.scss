@@ -34,6 +34,10 @@ img{
     }
     .modal-body{
         overflow-y: scroll;
+        word-break: break-word;
+    }
+    .list-group-item {
+        border: 0px;
     }
   }
 textarea {
