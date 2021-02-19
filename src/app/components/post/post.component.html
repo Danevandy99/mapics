@@ -6,7 +6,7 @@
     [src]="post.author?.photoURL || blankImage" />
     <h5 class="profile-name text-light">{{ post.author?.displayName }}</h5>
   </div>
-  <div class="actions">
+  <div class="actions d-flex flex-column justify-content-center align-items-center">
     <app-reaction [post]="post"></app-reaction>
     <app-comment [post]="post"></app-comment>
     <span class="iconify" data-icon="fa-solid:share" data-inline="false"></span>

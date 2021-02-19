@@ -1,5 +1,5 @@
 import { Post } from 'src/app/shared/models/post';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { Emoji, EmojiData } from '@ctrl/ngx-emoji-mart/ngx-emoji';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -14,13 +14,24 @@ export class ReactionComponent implements OnInit {
 
   closeResult = '';
   selectedReaction: EmojiData;
+  submittedReaction: EmojiData;
 
   constructor(private modalService: NgbModal) { }
 
   ngOnInit(): void {
   }
 
-  react(data: { emoji: EmojiData, $event: MouseEvent }) {
+  getBackgroundImage() {
+    return "/assets/images/64.png";
+  }
+
+  react(modal) {
+    this.submittedReaction = this.selectedReaction;
+    this.selectedReaction = null;
+    modal.close('Save Click');
+  }
+
+  selectReaction(data: { emoji: EmojiData, $event: MouseEvent }) {
     this.selectedReaction = data.emoji;
   }
 
