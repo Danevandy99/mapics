@@ -1,7 +1,7 @@
 <ng-template #content let-modal>
   <div class="modal-body">
     <emoji-mart title="Pick your emoji…" emoji="point_up" [style]="{ width: '100%'}"
-      (emojiSelect)="selectReaction($event)" [backgroundImageFn]="getBackgroundImage" [autoFocus]="true"
+      (emojiSelect)="selectReaction($event)" [autoFocus]="true"
       [color]="'#6f78d6'" [darkMode]="false" [showPreview]="false" [isNative]="true">
     </emoji-mart>
   </div>
@@ -14,8 +14,8 @@
 </ng-template>
 
 <button class="reaction" (click)="open(content)">
-  <ng-container *ngIf="submittedReaction; else noreaction">
-    {{ submittedReaction.native }}
+  <ng-container *ngIf="submittedReaction && submittedReaction.emoji; else noreaction">
+    {{ submittedReaction?.emoji.native }}
   </ng-container>
   <ng-template #noreaction>
     <div>
