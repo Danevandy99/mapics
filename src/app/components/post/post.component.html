@@ -4,7 +4,7 @@
   <div class="profile-section">
     <img class="img-thumbnail shimmer" width="200" height="200"
     [src]="post.author?.photoURL || blankImage" />
-    <h5 class="profile-name text-light">{{ post.author?.displayName }}</h5>
+    <h5 class="profile-name text-light"><a class="text-light" [routerLink]="['/profile', post.author?.userId]">{{ post.author?.displayName }}</a></h5>
   </div>
   <div class="actions d-flex flex-column justify-content-center align-items-center">
     <app-reaction [post]="post"></app-reaction>
@@ -12,7 +12,7 @@
     <span class="iconify" data-icon="fa-solid:share" data-inline="false"></span>
   </div>
   <div class="post-info">
-    <p><b>@{{ post.author?.username }}</b></p>
+    <p><b><a class="text-light" [routerLink]="['/profile', post.author?.userId]">@{{ post.author?.username }}</a></b></p>
     <p>{{ post.caption }}</p>
   </div>
 </div>

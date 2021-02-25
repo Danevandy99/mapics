@@ -9,4 +9,7 @@ export interface UserSettings {
   username: string;
   bio: string;
   notifications: boolean;
+  followersCount: number;
+  followingCount: number;
+  postsCount: number;
 }

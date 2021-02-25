@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, NgZone } from '@angular/core';
 import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from '../../../shared/service/auth.service';
 import { AngularFirestore } from '@angular/fire/firestore';
@@ -25,6 +25,10 @@ export class CommentComponent implements OnInit {
 
   ngOnInit(): void {
     this.retreiveComments();
+  }
+
+  ngOnDestroy(): void {
+    this.modalService.dismissAll();
   }
   open(content) {
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title ', windowClass: 'comments' }).result.then((result) => {
@@ -55,44 +59,44 @@ export class CommentComponent implements OnInit {
     comment.author = await this.store.collection('users').doc(user.uid)
     .get()
     .pipe( map
-      (doc => {          
+      (doc => {
         return { ...<object>doc.data(), userId: doc.id } as UserSettings;
       })
     )
     .toPromise();
-    
+
     this.comments.unshift({
-      ...comment, 
+      ...comment,
       commentID: newDoc.id
     } as Comment);
   }
 
-  retreiveComments() {    
+  retreiveComments() {
     this.store.collection('users').doc(this.post.authorId).collection('posts').doc(this.post.postId).collection("comments")
     .get()
     .pipe(
       map(docs => {
         return docs.docs.map( doc => {
           return { ...<Object>doc.data(), commentID: doc.id } as Comment
-        }) 
+        })
       })
     )
     .subscribe(comments => {
-      this.comments = comments; 
+      this.comments = comments;
       this.comments.forEach(comment => {
         this.store.collection('users').doc(comment.authorID)
         .get()
         .pipe( map
-          (doc => {          
+          (doc => {
             return { ...<object>doc.data(), userId: doc.id } as UserSettings;
           })
         )
         .subscribe(userSetting => {
           comment.author = userSetting;
-        })      
+        })
       });
     });
-    
+
 }
 }
 

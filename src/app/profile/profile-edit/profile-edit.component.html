@@ -1,5 +1,5 @@
 <div class="container mt-3">
-  <button class="btn btn-primary" routerLink="/profile"><fa-icon icon="arrow-left" class="mr-2"></fa-icon>Back to Profile</button>
+  <button class="btn btn-primary" *ngIf="(currentUserId | async)" [routerLink]="['/profile', (currentUserId | async)]"><fa-icon icon="arrow-left" class="mr-2"></fa-icon>Back to Profile</button>
   <form class="mt-3" [formGroup]="userForm" (ngSubmit)="saveUserChanges(userForm.value)">
     <!-- Disable form when user and user settings haven't loaded yet. -->
     <fieldset [disabled]="!user || saveUserButtonState === SaveButtonState.SAVING">

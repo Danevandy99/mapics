@@ -14,8 +14,8 @@ const routes: Routes = [
   { path: 'log-in', component: LogInComponent },
   { path: 'home', component: HomeComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
-  { path: 'profile', component: ProfileComponent },
   { path: 'profile/edit', component: ProfileEditComponent },
+  { path: 'profile/:id', component: ProfileComponent },
   { path: 'create-post', component: CreatePostComponent }
 ];
 

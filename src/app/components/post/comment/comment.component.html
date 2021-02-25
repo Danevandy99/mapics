@@ -9,9 +9,9 @@
         <ul class="list-group" *ngFor="let comment of comments;">
             <div class="list-group-item px-0">
                 <div class="d-flex flex-direction-row ">
-                    <img src="{{comment.author?.photoURL}}">
+                    <img [routerLink]="['/profile', comment.author?.userId]" src="{{comment.author?.photoURL}}">
                     <div class="px-2 text-wrap">
-                        <p class="text-dark mb-0">{{comment.author?.username}}</p>
+                        <p class="text-dark mb-0"><a class="text-dark" [routerLink]="['/profile', comment.author?.userId]"> {{comment.author?.username}}</a></p>
                         <p class="mb-0 text-muted">{{comment.commentText}}</p>
                     </div>
                 </div>

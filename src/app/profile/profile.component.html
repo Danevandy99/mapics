@@ -1,13 +1,13 @@
 <div class="container d-flex flex-column align-items-center pb-3">
   <div class="cover-photo position-relative w-100 mt-3">
     <img class="w-100 h-100 shimmer" [src]="userSettings?.coverPhotoURL || blankImage" />
-    <app-change-profile-photo-popup [photoSelected]="'cover-photo'" (refreshUserSettings)="refreshUserSettings()">
+    <app-change-profile-photo-popup *ngIf="userId === (currentUserId | async)" [photoSelected]="'cover-photo'" (refreshUserSettings)="refreshUserSettings()">
     </app-change-profile-photo-popup>
   </div>
 
   <div class="profile-photo">
     <img class="img-thumbnail shimmer" width="200" height="200" [src]="userSettings?.photoURL || blankImage" />
-    <app-change-profile-photo-popup [photoSelected]="'profile-photo'" (refreshUserSettings)="refreshUserSettings()">
+    <app-change-profile-photo-popup *ngIf="userId === (currentUserId | async)" [photoSelected]="'profile-photo'" (refreshUserSettings)="refreshUserSettings()">
     </app-change-profile-photo-popup>
   </div>
   <div class="profile-info text-center">
@@ -16,19 +16,21 @@
     <h6 class="text-muted font-weight-light mt-0">{{ userSettings?.bio }}</h6>
     <div class="row mt-2">
       <div class="col-4 px-2 text-center">
-        <h2 class="font-weight-light mb-0">28</h2>
+        <h2 class="font-weight-light mb-0">{{ userSettings?.postsCount || 0}}</h2>
         <p class="font-weight-bold">posts</p>
       </div>
       <div class="col-4 px-2 text-center">
-        <h2 class="font-weight-light mb-0">300</h2>
+        <h2 class="font-weight-light mb-0">{{ userSettings?.followersCount || 0}}</h2>
         <p class="font-weight-bold">followers</p>
       </div>
       <div class="col-4 px-2 text-center">
-        <h2 class="font-weight-light mb-0">310</h2>
+        <h2 class="font-weight-light mb-0">{{ userSettings?.followingCount || 0}}</h2>
         <p class="font-weight-bold">following</p>
       </div>
     </div>
-    <button class="btn btn-secondary w-100 mb-3" routerLink="edit">Edit Profile</button>
+    <button class="btn btn-secondary w-100 mb-3" *ngIf="userId === (currentUserId | async)" routerLink="/profile/edit">Edit Profile</button>
+    <button class="btn btn-secondary w-100 mb-3" *ngIf="userId && (currentUserId | async) && userId !== (currentUserId | async) && !isFollowing" (click)="followUser(userId)">Follow</button>
+    <button class="btn btn-secondary w-100 mb-3" *ngIf="userId && (currentUserId | async) && userId !== (currentUserId | async) && isFollowing" (click)="unfollowUser(userId)">Unfollow</button>
   </div>
   <ul class="nav nav-pills nav-fill profile-menu d-flex flex-row mt-1 w-100">
     <li class="flex-fill">

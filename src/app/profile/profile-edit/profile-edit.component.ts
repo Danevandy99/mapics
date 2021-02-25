@@ -6,6 +6,7 @@ import { AuthService } from './../../shared/service/auth.service';
 import { UserSettings } from './../../shared/models/user';
 import { Component, OnInit } from '@angular/core';
 import firebase from 'firebase';
+import { Observable } from 'rxjs';
 
 interface userFormValue {
   email: string;
@@ -67,6 +68,14 @@ export class ProfileEditComponent implements OnInit {
   ngOnInit(): void {
     this.getUser();
     this.getUserSettings();
+  }
+
+  get currentUserId(): Observable<string> {
+    return this.authService.user
+      .pipe(
+        filter(user => !!user),
+        map(user => user.uid)
+      );
   }
 
   getUserSettings() {
