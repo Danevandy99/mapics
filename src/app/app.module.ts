@@ -26,6 +26,7 @@ import { WebcamModule } from 'ngx-webcam';
 import { CommentComponent } from './components/post/comment/comment.component';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import { ReactionComponent } from './components/post/reaction/reaction.component';
+import { FollowPopupComponent } from './profile/follow-popup/follow-popup.component';
 
 const config = {
   apiKey: "AIzaSyBiBcN3svwTQk_jOdfVz239d0zZX4FKthE",
@@ -52,6 +53,7 @@ const config = {
     CreatePostComponent,
     CommentComponent,
     ReactionComponent,
+    FollowPopupComponent,
   ],
   imports: [
     BrowserModule,
