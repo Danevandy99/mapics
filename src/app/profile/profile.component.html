@@ -19,6 +19,7 @@
         <h2 class="font-weight-light mb-0">{{ userSettings?.postsCount || 0}}</h2>
         <p class="font-weight-bold">posts</p>
       </div>
+      <app-follow-popup [userId]="userId" [usersType]="'following'"></app-follow-popup>
       <div class="col-4 px-2 text-center">
         <h2 class="font-weight-light mb-0">{{ userSettings?.followersCount || 0}}</h2>
         <p class="font-weight-bold">followers</p>
