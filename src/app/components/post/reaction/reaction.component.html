@@ -2,7 +2,7 @@
   <div class="modal-body">
     <emoji-mart title="Pick your emoji…" emoji="point_up" [style]="{ width: '100%'}"
       (emojiSelect)="selectReaction($event)" [autoFocus]="true"
-      [color]="'#6f78d6'" [darkMode]="false" [showPreview]="false" [isNative]="true">
+      [color]="'#6f78d6'" [darkMode]="false" [showPreview]="false" size="16" [isNative]="true" (backgroundImageFn)="getBackgroundImage()" [showSingleCategory]="true" [useButton]="true">
     </emoji-mart>
   </div>
   <div class="modal-footer d-flex flex-row">

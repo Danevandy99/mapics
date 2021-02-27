@@ -43,7 +43,7 @@ export class ReactionComponent implements OnInit {
   }
 
   getBackgroundImage() {
-    return "/assets/images/64.png";
+    return "";
   }
 
   async react(modal) {
