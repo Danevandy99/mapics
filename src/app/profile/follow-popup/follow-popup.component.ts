@@ -20,6 +20,8 @@ export class FollowPopupComponent implements OnInit {
 
   @Input() userId: string;
   @Input() usersType: string;
+  @Input() userCount: number;
+  
   users: Array<UserSettings> = [];
 
   ngOnInit(): void { }

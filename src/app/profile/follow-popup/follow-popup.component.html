@@ -11,15 +11,18 @@
                 <div class="d-flex flex-direction-row ">
                     <img [routerLink]="['/profile', user.userId]" src="{{user.photoURL}}">
                     <div class="px-2 text-wrap">
-                        <p class="text-dark mb-0"><a class="text-dark" [routerLink]="['/profile', user.userId]"> {{user.username}}</a></p>
+                        <p class="text-dark mb-0"><a class="text-dark" [routerLink]="['/profile', user.userId]"> {{user.username}}</a></p>                        
                     </div>
+                    <div class="justify-content-end ml-auto">
+                        <button class="btn btn-primary">Follow</button>
+                    </div>
+                    
                 </div>
             </div>
           </ul>
     </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
-    </div>
   </ng-template>
+
+  <h2 class="font-weight-light mb-0" (click)="open(content)">{{ userCount || 0}}</h2>
   
-  <button class="btn btn-lg btn-outline-primary" (click)="open(content)">Launch demo modal</button>
+  <!-- <button ><h2 class="font-weight-light mb-0" (click)="open(content)">{{ userCount || 0}}</h2></button> -->

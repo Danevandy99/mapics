@@ -4,3 +4,13 @@ img{
     border-radius: 50%;
     object-fit: cover;
 }
+
+h2{
+    cursor: pointer;
+}
+
+::ng-deep {
+    .list-group-item {
+        border: 0px;
+    }
+  }
