@@ -1,0 +1,14 @@
+.profile-grid {
+  flex-wrap: wrap;
+  width: 100%;
+
+  img {
+    border-radius: 10px;
+    object-fit: cover;
+    aspect-ratio: 9 / 16;
+    min-width: 100px;
+    max-width: 33%;
+    flex: 1 0 33%;
+    padding: 5px;
+  }
+}

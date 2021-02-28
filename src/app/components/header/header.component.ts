@@ -10,6 +10,8 @@ import { filter, map } from 'rxjs/operators';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
+  isFullscreen = true;
+
   constructor(
     public authService: AuthService,
     public router: Router
@@ -23,11 +25,13 @@ export class HeaderComponent implements OnInit {
       );
   }
 
-  get isHomePage(): boolean {
-    return this.router.url === '/home';
-  }
-
   ngOnInit(): void {
+    this.router.events.subscribe(() => {
+      this.isFullscreen = [
+        'home',
+        'vertical-feed'
+      ].includes(this.router.url.split('/').reverse()[0]);
+    });
   }
 
 }

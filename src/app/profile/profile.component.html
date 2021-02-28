@@ -35,29 +35,17 @@
   </div>
   <ul class="nav nav-pills nav-fill profile-menu d-flex flex-row mt-1 w-100">
     <li class="flex-fill">
-      <a class="nav-link text-center" [ngClass]="{ 'active': profileTabState === ProfileTabState.HIGHLIGHTS }"
-        (click)="profileTabState = 0" aria-current="page">Highlights</a>
+      <a class="nav-link text-center" routerLink="highlights" routerLinkActive="active" aria-current="page">Highlights</a>
     </li>
     <li class="flex-fill">
-      <a class="nav-link text-center" [ngClass]="{ 'active': profileTabState === ProfileTabState.GRID }"
-        (click)="profileTabState = 1" aria-current="page">Grid</a>
+      <a class="nav-link text-center" routerLink="grid" routerLinkActive="active" aria-current="page">Grid</a>
     </li>
     <li class="flex-fill">
-      <a class="nav-link text-center" [ngClass]="{ 'active': profileTabState === ProfileTabState.VERTICAL }"
-        (click)="profileTabState = 2" aria-current="page">Vertical</a>
+      <a class="nav-link text-center" routerLink="vertical-feed" routerLinkActive="active" aria-current="page">Vertical</a>
     </li>
   </ul>
 
   <hr class="border w-100">
-  <div class="profile-highlights row flex-grow-1 w-100 pt-2" *ngIf="profileTabState === 0">
-    <div class="col-2 px-1" *ngFor="let highlight of highlights">
-      <img class="w-100 shimmer" [src]="highlight" />
-    </div>
-  </div>
 
-  <div class="profile-grid d-flex" *ngIf="profileTabState === 1">
-    <img class="w-100 shimmer" *ngFor="let post of gridPosts" [src]="post.photoUrls[0]" />
-  </div>
-  <div class="profile-vertical" *ngIf="profileTabState === 2">
-  </div>
+  <router-outlet></router-outlet>
 </div>

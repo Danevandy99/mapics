@@ -27,6 +27,9 @@ import { CommentComponent } from './components/post/comment/comment.component';
 import { PickerModule } from '@ctrl/ngx-emoji-mart';
 import { ReactionComponent } from './components/post/reaction/reaction.component';
 import { FollowPopupComponent } from './profile/follow-popup/follow-popup.component';
+import { ProfileHighlightsComponent } from './profile/profile-highlights/profile-highlights.component';
+import { ProfileGridComponent } from './profile/profile-grid/profile-grid.component';
+import { VerticalFeedComponent } from './profile/vertical-feed/vertical-feed.component';
 
 const config = {
   apiKey: "AIzaSyBiBcN3svwTQk_jOdfVz239d0zZX4FKthE",
@@ -54,6 +57,9 @@ const config = {
     CommentComponent,
     ReactionComponent,
     FollowPopupComponent,
+    ProfileHighlightsComponent,
+    ProfileGridComponent,
+    VerticalFeedComponent,
   ],
   imports: [
     BrowserModule,

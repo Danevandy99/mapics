@@ -1,3 +1,6 @@
+import { VerticalFeedComponent } from './profile/vertical-feed/vertical-feed.component';
+import { ProfileGridComponent } from './profile/profile-grid/profile-grid.component';
+import { ProfileHighlightsComponent } from './profile/profile-highlights/profile-highlights.component';
 import { CreatePostComponent } from './create-post/create-post.component';
 import { ProfileEditComponent } from './profile/profile-edit/profile-edit.component';
 import { ProfileComponent } from './profile/profile.component';
@@ -15,7 +18,14 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'profile/edit', component: ProfileEditComponent },
-  { path: 'profile/:id', component: ProfileComponent },
+  { path: 'profile/:id', component: ProfileComponent,
+    children: [
+      { path: '', redirectTo: 'highlights', pathMatch: 'full' },
+      { path: 'highlights', component: ProfileHighlightsComponent },
+      { path: 'grid', component: ProfileGridComponent },
+      { path: 'vertical-feed', component: VerticalFeedComponent }
+    ]
+  },
   { path: 'create-post', component: CreatePostComponent }
 ];
 

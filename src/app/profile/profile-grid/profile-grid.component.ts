@@ -1,0 +1,42 @@
+import { ActivatedRoute, Params } from '@angular/router';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { Component, OnInit } from '@angular/core';
+import { Post } from 'src/app/shared/models/post';
+import { map } from 'rxjs/operators';
+
+@Component({
+  selector: 'app-profile-grid',
+  templateUrl: './profile-grid.component.html',
+  styleUrls: ['./profile-grid.component.scss']
+})
+export class ProfileGridComponent implements OnInit {
+
+  posts: Post[];
+
+  constructor(
+    private store: AngularFirestore,
+    private route: ActivatedRoute
+  ) { }
+
+  ngOnInit(): void {
+    this.route.parent.params.subscribe((params: Params) => {
+      this.getUserPosts(params.id);
+    });
+  }
+
+  getUserPosts(id: string) {
+    this.store.collection('users').doc(id).collection('posts')
+      .get()
+      .pipe(
+        map(docs => {
+          return docs.docs.map(doc => {
+            return { ...<object>doc.data(), postId: doc.id } as Post;
+          });
+        })
+      )
+      .subscribe((posts: Post[]) => {
+        this.posts = posts;
+      });
+  }
+
+}
