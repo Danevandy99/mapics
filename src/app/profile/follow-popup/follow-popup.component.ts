@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
@@ -21,13 +21,17 @@ export class FollowPopupComponent implements OnInit {
   @Input() userId: string;
   @Input() usersType: string;
   @Input() userCount: number;
-  
+
   users: Array<UserSettings> = [];
 
   ngOnInit(): void { }
 
-  ngOnChanges(): void {
-    this.getUsers();
+  ngOnChanges(changes: SimpleChanges): void {
+    // Only get users if the @Input userId has changed.
+    if (changes.userId) {
+      this.getUsers();
+      this.modalService.dismissAll();
+    }
   }
 
   ngOnDestroy(): void {
@@ -39,6 +43,7 @@ export class FollowPopupComponent implements OnInit {
 
   getUsers() {
     this.users = [];
+
     this.store.collection('users').doc(this.userId).collection(this.usersType)
       .get()
       .pipe(
