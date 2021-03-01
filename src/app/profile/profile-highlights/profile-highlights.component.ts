@@ -25,7 +25,7 @@ export class ProfileHighlightsComponent implements OnInit {
   }
 
   getUserPosts(id: string) {
-    this.store.collection('users').doc(id).collection('posts')
+    this.store.collection('users').doc(id).collection('posts', ref => ref.orderBy('timePosted', 'desc'))
       .get()
       .pipe(
         map(docs => {
