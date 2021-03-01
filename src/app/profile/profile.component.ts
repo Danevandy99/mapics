@@ -1,3 +1,4 @@
+import { UserService } from './../shared/service/user.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AuthService } from './../shared/service/auth.service';
@@ -16,7 +17,7 @@ import { Observable } from 'rxjs';
 export class ProfileComponent implements OnInit {
   photoSelected;
 
-  userSettings: UserSettings;
+  userSettings$: Observable<UserSettings>;
   posts: Post[] = [];
   blankImage: string = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=";
   userId: string;
@@ -26,7 +27,8 @@ export class ProfileComponent implements OnInit {
     private authService: AuthService,
     private store: AngularFirestore,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    public userService: UserService
   ) { }
 
   get currentUserId(): Observable<string> {
@@ -50,21 +52,8 @@ export class ProfileComponent implements OnInit {
         map(document => document.exists)
       ).subscribe(isFollowing => this.isFollowing = isFollowing);
 
-      this.getUserSettings(this.userId);
+      this.userSettings$ = this.userService.getUserSettings(this.userId);
     })
-  }
-
-  getUserSettings(id: string) {
-    this.store.collection('users').doc(id)
-      .get()
-      .pipe(
-        map(document => {
-          return { ...<object>document.data(), userId: document.id } as UserSettings;
-        })
-      )
-      .subscribe((userSettings: UserSettings) => {
-        this.userSettings = userSettings;
-      });
   }
 
   async followUser(userIdToFollow: string) {
@@ -80,7 +69,7 @@ export class ProfileComponent implements OnInit {
       followersCount: firebase.firestore.FieldValue.increment(1)
     });
 
-    this.userSettings.followersCount += 1;
+    //this.userSettings.followersCount += 1;
 
     this.isFollowing = true;
   }
@@ -98,12 +87,12 @@ export class ProfileComponent implements OnInit {
       followersCount: firebase.firestore.FieldValue.increment(-1)
     });
 
-    this.userSettings.followersCount -= 1;
+    //this.userSettings.followersCount -= 1;
 
     this.isFollowing = false;
   }
 
   refreshUserSettings() {
-    this.getUserSettings(this.userId);
+    this.userSettings$ = this.userService.getUserSettings(this.userId);
   }
 }
