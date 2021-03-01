@@ -61,6 +61,19 @@ export class CreatePostComponent implements OnInit {
 
   async createPost(form: { caption: string }) {
     try {
+      var longitude: number; 
+      var latitude: number; 
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(position  => {
+          if (position) {
+            longitude = position.coords.latitude;
+            latitude = position.coords.longitude;
+          }
+        },
+        );
+      } else {
+        throw new console.error("Could not access location");        
+      }
       this.createPostButtonState = CreatePostButtonState.SAVING;
 
       const user = await this.authService.user.pipe(filter(user => !!user), first()).toPromise();
@@ -72,15 +85,15 @@ export class CreatePostComponent implements OnInit {
       await task.snapshotChanges().toPromise();
 
       const photoUrl = await fileRef.getDownloadURL().toPromise();
-
+      
       const post: Partial<Post> = {
         authorId: user.uid,
         photoUrls: [photoUrl],
         caption: form.caption,
         timePosted: Date.now(),
         location: {
-          latitude: 0,
-          longitude: 0
+          latitude: latitude,
+          longitude: longitude
         }
       };
 
