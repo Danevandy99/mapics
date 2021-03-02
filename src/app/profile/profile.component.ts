@@ -1,4 +1,4 @@
-import { UserService } from './../shared/service/user.service';
+import { UserService } from '../shared/service/user-settings.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AuthService } from './../shared/service/auth.service';
@@ -17,7 +17,7 @@ import { Observable } from 'rxjs';
 export class ProfileComponent implements OnInit {
   photoSelected;
 
-  userSettings$: Observable<UserSettings>;
+  userSettings: UserSettings;
   posts: Post[] = [];
   blankImage: string = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=";
   userId: string;
@@ -25,8 +25,6 @@ export class ProfileComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private store: AngularFirestore,
-    private router: Router,
     private route: ActivatedRoute,
     public userService: UserService
   ) { }
@@ -43,56 +41,23 @@ export class ProfileComponent implements OnInit {
     this.route.params.subscribe((params: { id: string}) => {
       this.userId = params.id;
 
-      this.authService.user
-      .pipe(
-        filter(user => !!user),
-        switchMap(user => {
-          return this.store.collection('users').doc(user.uid).collection('following').doc(this.userId).get()
-        }),
-        map(document => document.exists)
-      ).subscribe(isFollowing => this.isFollowing = isFollowing);
+      this.userService.isFollowingUser(this.userId)
+        .subscribe(isFollowing => this.isFollowing = isFollowing);
 
-      this.userSettings$ = this.userService.getUserSettings(this.userId);
+      this.userService.getUserSettings(this.userId)
+        .subscribe(userSettings => this.userSettings = userSettings);
     })
   }
 
   async followUser(userIdToFollow: string) {
-    const currentUserId = await this.currentUserId.pipe(first()).toPromise();
-
-    this.store.collection('users').doc(currentUserId).collection('following').doc(userIdToFollow).set({ following: true });
-    this.store.collection('users').doc(currentUserId).update({
-      followingCount: firebase.firestore.FieldValue.increment(1)
-    });
-
-    this.store.collection('users').doc(userIdToFollow).collection('followers').doc(currentUserId).set({ follower: true });
-    this.store.collection('users').doc(userIdToFollow).update({
-      followersCount: firebase.firestore.FieldValue.increment(1)
-    });
-
-    //this.userSettings.followersCount += 1;
-
+    await this.userService.followUser(userIdToFollow);
+    this.userSettings.followersCount += 1;
     this.isFollowing = true;
   }
 
   async unfollowUser(userIdToUnfollow: string) {
-    const currentUserId = await this.currentUserId.pipe(first()).toPromise();
-
-    this.store.collection('users').doc(currentUserId).collection('following').doc(userIdToUnfollow).delete();
-    this.store.collection('users').doc(currentUserId).update({
-      followingCount: firebase.firestore.FieldValue.increment(-1)
-    });
-
-    this.store.collection('users').doc(userIdToUnfollow).collection('followers').doc(currentUserId).delete();
-    this.store.collection('users').doc(userIdToUnfollow).update({
-      followersCount: firebase.firestore.FieldValue.increment(-1)
-    });
-
-    //this.userSettings.followersCount -= 1;
-
+    await this.userService.unfollowUser(userIdToUnfollow);
+    this.userSettings.followersCount -= 1;
     this.isFollowing = false;
-  }
-
-  refreshUserSettings() {
-    this.userSettings$ = this.userService.getUserSettings(this.userId);
   }
 }

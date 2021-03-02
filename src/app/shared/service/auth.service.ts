@@ -25,13 +25,11 @@ export class AuthService {
       if (user) {
         this.user.next(user);
         this.isLoggedIn.next(true);
-        localStorage.setItem('user', JSON.stringify(this.user.value));
-        JSON.parse(localStorage.getItem('user'));
+        localStorage.setItem('user', JSON.stringify(user));
       } else {
         localStorage.setItem('user', null);
         this.user.next(null);
         this.isLoggedIn.next(false);
-        JSON.parse(localStorage.getItem('user'));
       }
     })
   }
