@@ -1,13 +1,13 @@
 <div class="container d-flex flex-column align-items-center pb-3">
   <div class="cover-photo position-relative w-100 mt-3">
     <img class="w-100 h-100 shimmer" [src]="userSettings?.coverPhotoURL || blankImage" />
-    <app-change-profile-photo-popup *ngIf="userId === (currentUserId | async)" [photoSelected]="'cover-photo'" (refreshUserSettings)="refreshUserSettings()">
+    <app-change-profile-photo-popup *ngIf="userId === (currentUserId | async)" [photoSelected]="'cover-photo'" (refreshUserSettings)="getUserSettings(userId)">
     </app-change-profile-photo-popup>
   </div>
 
   <div class="profile-photo">
     <img class="img-thumbnail shimmer" width="200" height="200" [src]="userSettings?.photoURL || blankImage" />
-    <app-change-profile-photo-popup *ngIf="userId === (currentUserId | async)" [photoSelected]="'profile-photo'" (refreshUserSettings)="refreshUserSettings()">
+    <app-change-profile-photo-popup *ngIf="userId === (currentUserId | async)" [photoSelected]="'profile-photo'" (refreshUserSettings)="getUserSettings(userId)">
     </app-change-profile-photo-popup>
   </div>
   <div class="profile-info text-center">

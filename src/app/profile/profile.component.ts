@@ -44,8 +44,7 @@ export class ProfileComponent implements OnInit {
       this.userService.isFollowingUser(this.userId)
         .subscribe(isFollowing => this.isFollowing = isFollowing);
 
-      this.userService.getUserSettings(this.userId)
-        .subscribe(userSettings => this.userSettings = userSettings);
+      this.getUserSettings(this.userId);
     })
   }
 
@@ -59,5 +58,10 @@ export class ProfileComponent implements OnInit {
     await this.userService.unfollowUser(userIdToUnfollow);
     this.userSettings.followersCount -= 1;
     this.isFollowing = false;
+  }
+
+  getUserSettings(userId: string) {
+    this.userService.getUserSettings(userId)
+        .subscribe(userSettings => this.userSettings = userSettings);
   }
 }

@@ -8,6 +8,7 @@ import { Observable, Subject } from 'rxjs';
 import { filter, first, switchMap } from 'rxjs/operators';
 import { Post } from '../shared/models/post';
 import { AngularFireStorage } from '@angular/fire/storage';
+import firebase from 'firebase';
 
 enum CreatePostState {
   CAMERA = 0,
@@ -38,6 +39,7 @@ export class CreatePostComponent implements OnInit {
     caption: new FormControl('', [Validators.required, Validators.maxLength(200)])
   });
   public createPostFirebaseError: string;
+  public coords;
 
   // latest snapshot
   public webcamImage: WebcamImage = null;
@@ -61,19 +63,6 @@ export class CreatePostComponent implements OnInit {
 
   async createPost(form: { caption: string }) {
     try {
-      var longitude: number; 
-      var latitude: number; 
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(position  => {
-          if (position) {
-            longitude = position.coords.latitude;
-            latitude = position.coords.longitude;
-          }
-        },
-        );
-      } else {
-        throw new console.error("Could not access location");        
-      }
       this.createPostButtonState = CreatePostButtonState.SAVING;
 
       const user = await this.authService.user.pipe(filter(user => !!user), first()).toPromise();
@@ -85,23 +74,28 @@ export class CreatePostComponent implements OnInit {
       await task.snapshotChanges().toPromise();
 
       const photoUrl = await fileRef.getDownloadURL().toPromise();
-      
+
       const post: Partial<Post> = {
         authorId: user.uid,
         photoUrls: [photoUrl],
         caption: form.caption,
         timePosted: Date.now(),
         location: {
-          latitude: latitude,
-          longitude: longitude
+          latitude: this.coords.latitude,
+          longitude: this.coords.longitude
         }
       };
 
       await this.store.collection('users').doc(user.uid).collection('posts').add(post);
 
+      await this.store.collection('users').doc(user.uid).update({
+        postsCount: firebase.firestore.FieldValue.increment(1)
+      });
+
       this.createPostButtonState = CreatePostButtonState.SAVED_SUCCESSFULLY;
       setTimeout(() => this.router.navigateByUrl("/home"), 1000);
     } catch(error) {
+      console.log(error);
       this.createPostFirebaseError = error.message;
       this.createPostButtonState = CreatePostButtonState.NOT_SAVED_SUCCESSFULLY;
     } finally {
@@ -138,6 +132,13 @@ export class CreatePostComponent implements OnInit {
       .then((mediaDevices: MediaDeviceInfo[]) => {
         this.multipleWebcamsAvailable = mediaDevices && mediaDevices.length > 1;
       });
+
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(position => {
+          this.coords = position.coords;
+          console.log(this.coords);
+        });
+      }
   }
 
   public get triggerObservable(): Observable<void> {
