@@ -7,4 +7,5 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'mapics';
+  postion = navigator.geolocation.getCurrentPosition(postion => {});
 }
