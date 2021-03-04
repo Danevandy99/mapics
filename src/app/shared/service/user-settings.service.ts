@@ -9,12 +9,16 @@ import firebase from 'firebase';
 @Injectable({
   providedIn: 'root'
 })
-export class UserService {
+export class UserSettingsService {
 
   private _currentUserSettings: BehaviorSubject<UserSettings> = new BehaviorSubject<UserSettings>(null);
   public currentUserSettings$: Observable<UserSettings> = this._currentUserSettings.asObservable().pipe(
     filter(userSettings => !!userSettings),
     tap(userSettings => this.cacheCurrentUserSettings(userSettings)),
+  );
+  private _currentUserFollowingIds: BehaviorSubject<string[]> = new BehaviorSubject<string[]>(null);
+  public currentUserFollowingIds$: Observable<string[]> = this._currentUserFollowingIds.asObservable().pipe(
+    filter(followerIds => !!followerIds)
   );
 
   constructor(
@@ -25,11 +29,34 @@ export class UserService {
       .subscribe(userSettings => {
         this._currentUserSettings.next(userSettings);
       });
+
+    this.getCurrentUserFollowingIds()
+      .subscribe(followerIds => {
+        this._currentUserFollowingIds.next(followerIds);
+      })
    }
+  public getCurrentUserFollowingIds() {
+    return this.authService.user.pipe(
+      filter(user => !!user),
+      switchMap(user => {
+        return this.store.collection('users').doc(user.uid).collection('following').get();
+      }),
+      map(documents => {
+        return documents.docs.map(document => {
+          return document.id;
+        });
+      })
+    )
+  }
 
   public async followUser(userIdToFollow: string) {
     let currentUserSettings = await this._currentUserSettings.pipe(first()).toPromise();
-    currentUserSettings.followingCount += 1;
+    if (currentUserSettings.followingCount) {
+      currentUserSettings.followingCount += 1;
+    } else {
+      currentUserSettings.followingCount = 1;
+    }
+
 
     this.store.collection('users').doc(currentUserSettings.userId).collection('following').doc(userIdToFollow).set({ following: true });
     this.store.collection('users').doc(currentUserSettings.userId).update({
@@ -40,6 +67,9 @@ export class UserService {
     this.store.collection('users').doc(userIdToFollow).update({
       followersCount: firebase.firestore.FieldValue.increment(1)
     });
+
+    // Add to our cached version of following
+    this._currentUserFollowingIds.next([...this._currentUserFollowingIds.value, userIdToFollow]);
   }
 
   public async unfollowUser(userIdToUnfollow) {
@@ -55,6 +85,9 @@ export class UserService {
     this.store.collection('users').doc(userIdToUnfollow).update({
       followersCount: firebase.firestore.FieldValue.increment(-1)
     });
+
+    // Remove from our cached version of following
+    this._currentUserFollowingIds.next(this._currentUserFollowingIds.value.filter(id => id !== userIdToUnfollow));
   }
 
   public isFollowingUser(userId: string): Observable<boolean> {

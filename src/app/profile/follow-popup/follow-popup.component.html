@@ -14,7 +14,12 @@
                         <p class="text-dark mb-0"><a class="text-dark" [routerLink]="['/profile', user.userId]"> {{user.username}}</a></p>
                     </div>
                     <div class="justify-content-end ml-auto">
-                        <button class="btn btn-primary">Follow</button>
+                        <button
+                          (click)="userSettingsService.followUser(user.userId)"
+                          *ngIf="!(userSettingsService.currentUserFollowingIds$ | async).includes(user.userId) && user.userId !== (userSettingsService.currentUserSettings$ | async).userId" class="btn btn-primary">Follow</button>
+                        <button
+                          (click)="userSettingsService.unfollowUser(user.userId)"
+                          *ngIf="(userSettingsService.currentUserFollowingIds$ | async).includes(user.userId) && user.userId !== (userSettingsService.currentUserSettings$ | async).userId" class="btn btn-primary">Unfollow</button>
                     </div>
 
                 </div>

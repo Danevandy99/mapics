@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { filter, map, switchMap } from 'rxjs/operators';
 import { UserSettings } from 'src/app/shared/models/user';
+import { UserSettingsService } from 'src/app/shared/service/user-settings.service';
 import { AuthService } from '../../shared/service/auth.service';
 
 @Component({
@@ -16,6 +17,7 @@ export class FollowPopupComponent implements OnInit {
     private store: AngularFirestore,
     private modalService: NgbModal,
     private authService: AuthService,
+    public userSettingsService: UserSettingsService,
     private route: ActivatedRoute) { }
 
   @Input() userId: string;

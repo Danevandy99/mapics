@@ -1,4 +1,4 @@
-import { UserService } from '../shared/service/user-settings.service';
+import { UserSettingsService } from '../shared/service/user-settings.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AuthService } from './../shared/service/auth.service';
@@ -26,7 +26,7 @@ export class ProfileComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private route: ActivatedRoute,
-    public userService: UserService
+    public userSettingsService: UserSettingsService
   ) { }
 
   get currentUserId(): Observable<string> {
@@ -41,7 +41,7 @@ export class ProfileComponent implements OnInit {
     this.route.params.subscribe((params: { id: string}) => {
       this.userId = params.id;
 
-      this.userService.isFollowingUser(this.userId)
+      this.userSettingsService.isFollowingUser(this.userId)
         .subscribe(isFollowing => this.isFollowing = isFollowing);
 
       this.getUserSettings(this.userId);
@@ -49,19 +49,19 @@ export class ProfileComponent implements OnInit {
   }
 
   async followUser(userIdToFollow: string) {
-    await this.userService.followUser(userIdToFollow);
+    await this.userSettingsService.followUser(userIdToFollow);
     this.userSettings.followersCount += 1;
     this.isFollowing = true;
   }
 
   async unfollowUser(userIdToUnfollow: string) {
-    await this.userService.unfollowUser(userIdToUnfollow);
+    await this.userSettingsService.unfollowUser(userIdToUnfollow);
     this.userSettings.followersCount -= 1;
     this.isFollowing = false;
   }
 
   getUserSettings(userId: string) {
-    this.userService.getUserSettings(userId)
+    this.userSettingsService.getUserSettings(userId)
         .subscribe(userSettings => this.userSettings = userSettings);
   }
 }

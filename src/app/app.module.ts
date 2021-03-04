@@ -30,9 +30,10 @@ import { FollowPopupComponent } from './profile/follow-popup/follow-popup.compon
 import { ProfileHighlightsComponent } from './profile/profile-highlights/profile-highlights.component';
 import { ProfileGridComponent } from './profile/profile-grid/profile-grid.component';
 import { VerticalFeedComponent } from './profile/vertical-feed/vertical-feed.component';
+import { environment } from '../environments/environment';
 
 const config = {
-  apiKey: "AIzaSyBiBcN3svwTQk_jOdfVz239d0zZX4FKthE",
+  apiKey: environment.FIREBASE_API_KEY,
   authDomain: "mapics-b0365.firebaseapp.com",
   projectId: "mapics-b0365",
   storageBucket: "mapics-b0365.appspot.com",
