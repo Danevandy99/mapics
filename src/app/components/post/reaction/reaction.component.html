@@ -5,7 +5,7 @@
         <a class="nav-link text-center" [ngClass]="{ 'active': !viewReactions }" (click)="viewReactions = false" aria-current="page">React</a>
       </li>
       <li class="w-50">
-        <a class="nav-link text-center" [ngClass]="{ 'active': viewReactions }" (click)="viewReactions = true" aria-current="page">View Reactions</a>
+        <a class="nav-link text-center" [ngClass]="{ 'active': viewReactions }" (click)="viewReactions = true; getReactions()" aria-current="page">View Reactions</a>
       </li>
     </ul>
 

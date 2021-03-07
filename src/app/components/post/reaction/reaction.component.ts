@@ -29,7 +29,6 @@ export class ReactionComponent implements OnInit {
 
   ngOnInit(): void {
     this.getSelectedReaction();
-    this.getReactions();
   }
 
   getReactions() {
