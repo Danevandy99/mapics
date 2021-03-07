@@ -1,11 +1,32 @@
 <ng-template #content let-modal>
   <div class="modal-body">
+    <ul class="nav nav-pills nav-fill profile-menu d-flex flex-row p-2 border-bottom">
+      <li class="w-50">
+        <a class="nav-link text-center" [ngClass]="{ 'active': !viewReactions }" (click)="viewReactions = false" aria-current="page">React</a>
+      </li>
+      <li class="w-50">
+        <a class="nav-link text-center" [ngClass]="{ 'active': viewReactions }" (click)="viewReactions = true" aria-current="page">View Reactions</a>
+      </li>
+    </ul>
+
+    <ng-container *ngIf="viewReactions">
+      <div class="w-100 p-2 d-flex flex-row reactions" *ngFor="let reaction of reactions">
+        <div class="user flex-fill d-flex flex-row align-items-center" *ngIf="reaction.user">
+          <img class="img-thumbnail shimmer" width="200" height="200"
+            [src]="reaction.user?.photoURL || blankImage" />
+          <h5 class="profile-name text-dark d-inline ml-3 mb-0"><a class="text-dark" [routerLink]="['/profile', reaction.user?.userId]">{{ reaction.user?.displayName }}</a></h5>
+        </div>
+        <span class="emoji px-1">{{ reaction.emoji.native }}</span>
+      </div>
+    </ng-container>
+
     <emoji-mart title="Pick your emoji…" emoji="point_up" [style]="{ width: '100%'}"
+      *ngIf="!viewReactions"
       (emojiSelect)="selectReaction($event)" [autoFocus]="true"
       [color]="'#6f78d6'" [darkMode]="false" [showPreview]="false" size="16" [isNative]="true" (backgroundImageFn)="getBackgroundImage()" [showSingleCategory]="true" [useButton]="true">
     </emoji-mart>
   </div>
-  <div class="modal-footer d-flex flex-row">
+  <div class="modal-footer d-flex flex-row" *ngIf="!viewReactions">
     <button type="button" class="btn btn-secondary flex-fill" aria-label="Close"
       (click)="selectedReaction = null; modal.dismiss('Cross click')">Cancel</button>
     <button type="button" class="btn btn-primary flex-fill" (click)="react(modal)" [disabled]="!selectedReaction">React

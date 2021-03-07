@@ -9,6 +9,40 @@
 
     .modal-body {
       padding: 0px;
+
+      .reactions {
+        img {
+          border-radius: 50%;
+          width: 40px;
+          height: 40px;
+          object-fit: cover;
+          padding: 0.05em;
+        }
+
+        .emoji {
+          font-size: 30px;
+          display: inline-block;
+          width: auto;
+          height: auto;
+          word-break: keep-all;
+        }
+      }
+
+      .emoji-mart {
+        border: none;
+
+        .emoji-mart-anchor {
+          &:hover {
+            cursor: pointer;
+          }
+        }
+
+        .emoji-mart-emoji {
+          span:hover {
+            cursor: pointer;
+          }
+        }
+      }
     }
   }
 }
