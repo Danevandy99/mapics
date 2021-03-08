@@ -83,5 +83,5 @@ export class HomeComponent implements OnInit {
         if (unit=="N") { dist = dist * 0.8684 }
         return dist;
     }
-}
+  }
 }
