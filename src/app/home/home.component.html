@@ -1,5 +1,13 @@
 <div class="scroll-snap-container">
   <app-post class="scroll-snap-child" [post]="post" *ngFor="let post of posts"></app-post>
+  <div class="bg-black d-flex align-items-center justify-content-center h-100 w-100" *ngIf="!posts">
+    <div class="spinner-border text-primary" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+  <div class="bg-black d-flex align-items-center justify-content-center h-100 w-100" *ngIf="posts && posts.length < 1">
+    <h5 class="text-light">No posts to see here :(</h5>
+  </div>
 </div>
 
 

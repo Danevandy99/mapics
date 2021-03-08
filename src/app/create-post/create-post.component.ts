@@ -1,3 +1,4 @@
+import { LocationService } from './../shared/service/location.service';
 import { Router } from '@angular/router';
 import { AuthService } from './../shared/service/auth.service';
 import { AngularFirestore } from '@angular/fire/firestore';
@@ -9,6 +10,7 @@ import { filter, first, switchMap } from 'rxjs/operators';
 import { Post } from '../shared/models/post';
 import { AngularFireStorage } from '@angular/fire/storage';
 import firebase from 'firebase';
+import geohash from "ngeohash";
 
 enum CreatePostState {
   CAMERA = 0,
@@ -39,7 +41,6 @@ export class CreatePostComponent implements OnInit {
     caption: new FormControl('', [Validators.required, Validators.maxLength(200)])
   });
   public createPostFirebaseError: string;
-  public coords;
 
   // latest snapshot
   public webcamImage: WebcamImage = null;
@@ -56,7 +57,8 @@ export class CreatePostComponent implements OnInit {
     private store: AngularFirestore,
     private authService: AuthService,
     private afStorage: AngularFireStorage,
-    private router: Router
+    private router: Router,
+    public locationService: LocationService
   ) {
 
   }
@@ -75,15 +77,16 @@ export class CreatePostComponent implements OnInit {
 
       const photoUrl = await fileRef.getDownloadURL().toPromise();
 
+      const location = await this.locationService.location.pipe(first()).toPromise();
+
       const post: Partial<Post> = {
         authorId: user.uid,
         photoUrls: [photoUrl],
         caption: form.caption,
         timePosted: Date.now(),
-        location: {
-          latitude: this.coords.latitude,
-          longitude: this.coords.longitude
-        }
+        latitude: location.latitude,
+        longitude: location.longitude,
+        geohash: geohash.encode(location.latitude, location.longitude)
       };
 
       await this.store.collection('users').doc(user.uid).collection('posts').add(post);
@@ -132,13 +135,6 @@ export class CreatePostComponent implements OnInit {
       .then((mediaDevices: MediaDeviceInfo[]) => {
         this.multipleWebcamsAvailable = mediaDevices && mediaDevices.length > 1;
       });
-
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(position => {
-          this.coords = position.coords;
-          console.log(this.coords);
-        });
-      }
   }
 
   public get triggerObservable(): Observable<void> {

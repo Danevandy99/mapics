@@ -5,9 +5,9 @@ export interface Post {
   photoUrls: string[];
   caption: string;
   timePosted: number;
-  location: {
-    latitude: number;
-    longitude: number;
-  };
+  latitude: number;
+  longitude: number;
+  geohash: string;
   author?: UserSettings;
+  distance?: number;
 }

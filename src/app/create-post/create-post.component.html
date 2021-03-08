@@ -26,7 +26,7 @@
         type="submit"
         class="btn btn-primary d-flex flex-row align-items-center justify-content-center w-100"
         [ngClass]="{'btn-success' : createPostButtonState === CreatePostButtonState.SAVED_SUCCESSFULLY, 'btn-danger' : createPostButtonState === CreatePostButtonState.NOT_SAVED_SUCCESSFULLY }"
-        [disabled]="!newPostForm.valid || createPostButtonState !== CreatePostButtonState.UNSAVED || !coords">
+        [disabled]="!newPostForm.valid || createPostButtonState !== CreatePostButtonState.UNSAVED || !locationService.location">
         <ng-container *ngIf="createPostButtonState === CreatePostButtonState.SAVING">
           <span class="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span>
           <span class="sr-only">Loading...</span>

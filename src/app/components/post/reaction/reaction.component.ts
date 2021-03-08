@@ -45,7 +45,6 @@ export class ReactionComponent implements OnInit {
             return this.userSettingsService.getUserSettings(reaction.userId)
               .pipe(
                 map(userSettings => {
-                  console.log(userSettings);
                   return {
                     user: userSettings,
                     ...reaction

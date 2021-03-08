@@ -11,6 +11,10 @@ $theme-colors: (
 /* Emoji Picker SCSS */
 @import '~@ctrl/ngx-emoji-mart/picker';
 
+.bg-black {
+  background-color: black;
+}
+
 .spinner-border-sm {
   border-width: 0.05em;
   vertical-align: middle;
