@@ -47,3 +47,6 @@ Thumbs.db
 
 # API Keys
 .env
+
+# Local Netlify folder
+.netlify
