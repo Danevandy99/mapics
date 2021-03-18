@@ -1,3 +1,4 @@
+import { AccountSetupComponent } from './account-setup/account-setup.component';
 import { AuthGuardService } from './shared/guards/auth-guard.service';
 import { VerticalFeedComponent } from './profile/vertical-feed/vertical-feed.component';
 import { ProfileGridComponent } from './profile/profile-grid/profile-grid.component';
@@ -19,6 +20,7 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent, canActivate: [AuthGuardService] },
   { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: 'profile/edit', component: ProfileEditComponent, canActivate: [AuthGuardService] },
+  { path: 'account-setup', component: AccountSetupComponent, canActivate: [AuthGuardService] },
   { path: 'profile/:id', component: ProfileComponent, canActivate: [AuthGuardService],
     canActivateChild: [AuthGuardService],
     children: [

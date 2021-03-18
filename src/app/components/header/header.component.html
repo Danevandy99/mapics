@@ -1,4 +1,4 @@
-<div class="footer-bar" [ngClass]="{ 'bg-light': !isFullscreen }">
+<div class="footer-bar" [ngClass]="{ 'bg-light': !isFullscreen }" *ngIf="!isHidden">
     <div class="m-auto d-flex justify-content-around">
       <ng-container *ngIf="authService.isLoggedIn | async">
         <a routerLinkActive="active" routerLink="/home" class="footer-bar-button" [ngClass]="{ 'darker-text': !isFullscreen }"><span class="iconify" data-icon="akar-icons:home" data-inline="false"></span></a>

@@ -11,6 +11,7 @@ import { filter, map } from 'rxjs/operators';
 })
 export class HeaderComponent implements OnInit {
   isFullscreen = true;
+  isHidden = true;
 
   constructor(
     public authService: AuthService,
@@ -30,6 +31,10 @@ export class HeaderComponent implements OnInit {
       this.isFullscreen = [
         'home',
         'vertical-feed'
+      ].includes(this.router.url.split('/').reverse()[0]);
+
+      this.isHidden = [
+        'account-setup'
       ].includes(this.router.url.split('/').reverse()[0]);
     });
   }

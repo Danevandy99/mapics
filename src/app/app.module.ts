@@ -31,6 +31,7 @@ import { ProfileHighlightsComponent } from './profile/profile-highlights/profile
 import { ProfileGridComponent } from './profile/profile-grid/profile-grid.component';
 import { VerticalFeedComponent } from './profile/vertical-feed/vertical-feed.component';
 import { environment } from '../environments/environment';
+import { AccountSetupComponent } from './account-setup/account-setup.component';
 
 const config = {
   apiKey: environment.FIREBASE_API_KEY,
@@ -61,6 +62,7 @@ const config = {
     ProfileHighlightsComponent,
     ProfileGridComponent,
     VerticalFeedComponent,
+    AccountSetupComponent,
   ],
   imports: [
     BrowserModule,

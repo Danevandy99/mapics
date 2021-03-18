@@ -52,9 +52,9 @@ export class AuthService {
     return this.auth.createUserWithEmailAndPassword(email, password)
       .then((result) => {
         this.setUser(result.user);
-        this.ngZone.run(() => {
-          this.router.navigate(['home']);
-        });
+        this.user.next(result.user);
+        this.isLoggedIn.next(true);
+        this.router.navigate(['account-setup']);
       }).catch((error) => {
         console.log(error.message);
         throw error;
