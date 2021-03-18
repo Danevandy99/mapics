@@ -38,9 +38,9 @@ export class AuthService {
   logIn(email, password) {
     return this.auth.signInWithEmailAndPassword(email, password)
       .then((result) => {
-        this.ngZone.run(() => {
-          this.router.navigate(['home']);
-        });
+        this.user.next(result.user);
+        this.isLoggedIn.next(true);
+        this.router.navigate(['home']);
       }).catch((error) => {
         console.log(error.message)
         throw error;
