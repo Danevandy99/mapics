@@ -1,3 +1,4 @@
+import { AuthGuardService } from './shared/guards/auth-guard.service';
 import { VerticalFeedComponent } from './profile/vertical-feed/vertical-feed.component';
 import { ProfileGridComponent } from './profile/profile-grid/profile-grid.component';
 import { ProfileHighlightsComponent } from './profile/profile-highlights/profile-highlights.component';
@@ -15,10 +16,11 @@ const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'sign-up', component: SignUpComponent },
   { path: 'log-in', component: LogInComponent },
-  { path: 'home', component: HomeComponent },
+  { path: 'home', component: HomeComponent, canActivate: [AuthGuardService] },
   { path: 'forgot-password', component: ForgotPasswordComponent },
-  { path: 'profile/edit', component: ProfileEditComponent },
-  { path: 'profile/:id', component: ProfileComponent,
+  { path: 'profile/edit', component: ProfileEditComponent, canActivate: [AuthGuardService] },
+  { path: 'profile/:id', component: ProfileComponent, canActivate: [AuthGuardService],
+    canActivateChild: [AuthGuardService],
     children: [
       { path: '', redirectTo: 'highlights', pathMatch: 'full' },
       { path: 'highlights', component: ProfileHighlightsComponent },
@@ -26,7 +28,7 @@ const routes: Routes = [
       { path: 'vertical-feed', component: VerticalFeedComponent }
     ]
   },
-  { path: 'create-post', component: CreatePostComponent }
+  { path: 'create-post', component: CreatePostComponent, canActivate: [AuthGuardService] }
 ];
 
 @NgModule({

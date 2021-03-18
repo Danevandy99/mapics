@@ -41,7 +41,6 @@ export class AuthService {
         this.ngZone.run(() => {
           this.router.navigate(['home']);
         });
-        this.setUser(result.user);
       }).catch((error) => {
         console.log(error.message)
         throw error;
@@ -67,20 +66,6 @@ export class AuthService {
     return this.auth.sendPasswordResetEmail(passwordResetEmail)
     .then(() => {
       console.log('Password reset email sent, check your inbox.');
-    }).catch((error) => {
-      console.log(error)
-      throw error;
-    })
-  }
-
-  // Auth logic to run auth providers
-  authLogin(provider) {
-    return this.auth.signInWithPopup(provider)
-    .then((result) => {
-       this.ngZone.run(() => {
-          this.router.navigate(['dashboard']);
-        })
-      this.setUser(result.user);
     }).catch((error) => {
       console.log(error)
       throw error;
