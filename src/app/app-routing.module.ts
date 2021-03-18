@@ -30,7 +30,8 @@ const routes: Routes = [
       { path: 'vertical-feed', component: VerticalFeedComponent }
     ]
   },
-  { path: 'create-post', component: CreatePostComponent, canActivate: [AuthGuardService] }
+  { path: 'create-post', component: CreatePostComponent, canActivate: [AuthGuardService] },
+  { path: '**', redirectTo: '/home' }
 ];
 
 @NgModule({
