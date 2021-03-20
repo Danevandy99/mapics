@@ -81,7 +81,8 @@ export class AuthService {
       userId: user.uid,
       email: user.email,
       displayName: user.displayName,
-      photoURL: user.photoURL,
+      photoURL: 'https://via.placeholder.com/150/FFFFFF/808080.png?text=%20',
+      coverPhotoURL: 'https://via.placeholder.com/150/FFFFFF/808080.png?text=%20',
       emailVerified: user.emailVerified
     }
     return userRef.set(userSettings, {
