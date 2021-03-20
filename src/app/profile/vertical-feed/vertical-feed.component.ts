@@ -1,9 +1,11 @@
 import { LocationService } from './../../shared/service/location.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { ActivatedRoute, Params } from '@angular/router';
 import { first, map } from 'rxjs/operators';
 import { Post } from 'src/app/shared/models/post';
+import { DOCUMENT } from '@angular/common';
+
 
 @Component({
   selector: 'app-vertical-feed',
@@ -17,8 +19,11 @@ export class VerticalFeedComponent implements OnInit {
   constructor(
     private store: AngularFirestore,
     private route: ActivatedRoute,
-    private locationService: LocationService
-  ) { }
+    private locationService: LocationService,
+    @Inject(DOCUMENT) private document: Document
+  ) {
+
+  }
 
   ngOnInit(): void {
     this.route.parent.params.subscribe((params: Params) => {
