@@ -29,9 +29,10 @@ import { ReactionComponent } from './components/post/reaction/reaction.component
 import { FollowPopupComponent } from './profile/follow-popup/follow-popup.component';
 import { ProfileHighlightsComponent } from './profile/profile-highlights/profile-highlights.component';
 import { ProfileGridComponent } from './profile/profile-grid/profile-grid.component';
-import { VerticalFeedComponent } from './profile/vertical-feed/vertical-feed.component';
+import { VerticalFeedComponent } from './components/vertical-feed/vertical-feed.component';
 import { environment } from '../environments/environment';
 import { AccountSetupComponent } from './account-setup/account-setup.component';
+import { ProfileVerticalFeedComponent } from './profile/profile-vertical-feed/profile-vertical-feed.component';
 
 const config = {
   apiKey: environment.FIREBASE_API_KEY,
@@ -63,6 +64,8 @@ const config = {
     ProfileGridComponent,
     VerticalFeedComponent,
     AccountSetupComponent,
+    VerticalFeedComponent,
+    ProfileVerticalFeedComponent
   ],
   imports: [
     BrowserModule,

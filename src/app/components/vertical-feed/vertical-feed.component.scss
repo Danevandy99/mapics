@@ -2,15 +2,17 @@
   overflow-y: scroll;
   height: var(--100vh);
   width: 100vw;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
   scroll-snap-type: mandatory;
   scroll-snap-points-y: repeat(var(--100vh));
   scroll-snap-type: y mandatory;
   display: flex;
   flex-direction: column;
+
+  .bg-black {
+    height: var(--100vh);
+    position: absolute;
+    top: 0;
+  }
 
   .scroll-snap-child {
     height: var(--100vh);
@@ -19,3 +21,4 @@
     scroll-snap-stop: always;
   }
 }
+

@@ -9,14 +9,17 @@
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <script src="https://code.iconify.design/1/1.0.7/iconify.min.js"></script>
+  <script>
+    setVH();
+    window.addEventListener('resize', setVH);
+
+    function setVH() {
+      const innerHeightPer = window.innerHeight;
+      document.documentElement.style.setProperty('--100vh', innerHeightPer + 'px');
+    }
+</script>
 </head>
 <body>
   <app-root></app-root>
-  <script>
-      window.addEventListener('resize', () => {
-        const innerHeightPer = window.innerHeight;
-        document.documentElement.style.setProperty('--100vh', innerHeightPer + 'px');
-      });
-  </script>
 </body>
 </html>

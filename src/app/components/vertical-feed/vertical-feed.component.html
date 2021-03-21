@@ -1,0 +1,15 @@
+<div class="scroll-snap-container">
+  <ng-container *ngIf="(feedService.posts | async) as posts">
+    <app-post class="scroll-snap-child" [post]="post" *ngFor="let post of posts"></app-post>
+    <div class="bg-black d-flex align-items-center justify-content-center h-100 w-100" *ngIf="posts && posts.length < 1">
+      <h5 class="text-light">No posts to see here :(</h5>
+    </div>
+  </ng-container>
+  <div class="bg-black d-flex align-items-center justify-content-center w-100" *ngIf="!(feedService.posts | async)">
+    <div class="spinner-border text-primary" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+</div>
+
+

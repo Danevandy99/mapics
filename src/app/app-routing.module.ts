@@ -1,6 +1,6 @@
+import { ProfileVerticalFeedComponent } from './profile/profile-vertical-feed/profile-vertical-feed.component';
 import { AccountSetupComponent } from './account-setup/account-setup.component';
 import { AuthGuardService } from './shared/guards/auth-guard.service';
-import { VerticalFeedComponent } from './profile/vertical-feed/vertical-feed.component';
 import { ProfileGridComponent } from './profile/profile-grid/profile-grid.component';
 import { ProfileHighlightsComponent } from './profile/profile-highlights/profile-highlights.component';
 import { CreatePostComponent } from './create-post/create-post.component';
@@ -27,9 +27,9 @@ const routes: Routes = [
       { path: '', redirectTo: 'highlights', pathMatch: 'full' },
       { path: 'highlights', component: ProfileHighlightsComponent },
       { path: 'grid', component: ProfileGridComponent },
-      { path: 'vertical-feed', component: VerticalFeedComponent }
     ]
   },
+  { path: 'profile/:id/vertical-feed', component: ProfileVerticalFeedComponent },
   { path: 'create-post', component: CreatePostComponent, canActivate: [AuthGuardService] },
   { path: '**', redirectTo: '/home' }
 ];
