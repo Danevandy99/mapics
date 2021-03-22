@@ -1,12 +1,16 @@
 <div class="camera-container" *ngIf="createPostState === CreatePostState.CAMERA">
+  <button class="back" routerLink="/home"><span  class="iconify" data-icon="ic:baseline-arrow-back-ios-new" data-inline="false"></span></button>
   <webcam [trigger]="triggerObservable" (imageCapture)="handleImage($event)"></webcam>
   <button class="trigger-button" (click)="triggerSnapshot()"><span class="iconify" data-icon="ph:record-fill" data-inline="false"></span></button>
   <div class="snapshot" *ngIf="webcamImage" (click)="createPostState = CreatePostState.PREVIEW">
     <img [src]="webcamImage?.imageAsDataUrl"/>
   </div>
 </div>
-<div class="preview-container d-flex flex-column px-2 mt-2" *ngIf="createPostState === CreatePostState.PREVIEW">
-  <img class="image-preview mb-2" [src]="webcamImage?.imageAsDataUrl"/>
+<div class="preview-container d-flex flex-column px-2" *ngIf="createPostState === CreatePostState.PREVIEW">
+  <button class="back" (click)="createPostState = CreatePostState.CAMERA"><span  class="iconify" data-icon="ic:baseline-arrow-back-ios-new" data-inline="false"></span></button>
+  <div class="image-preview-container">
+    <img class="image-preview mb-2" [src]="webcamImage?.imageAsDataUrl"/>
+  </div>
   <form [formGroup]="newPostForm" class="mb-3" (ngSubmit)="createPost(newPostForm.value)">
     <div class="form-group w-100 d-block">
       <label for="caption">Caption ({{ newPostForm.get('caption').value.length }}/200)</label>

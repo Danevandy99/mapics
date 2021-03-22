@@ -11,6 +11,7 @@ import { Post } from '../shared/models/post';
 import { AngularFireStorage } from '@angular/fire/storage';
 import firebase from 'firebase';
 import geohash from "ngeohash";
+import { Location } from '@angular/common';
 
 enum CreatePostState {
   CAMERA = 0,
@@ -58,7 +59,8 @@ export class CreatePostComponent implements OnInit {
     private authService: AuthService,
     private afStorage: AngularFireStorage,
     private router: Router,
-    public locationService: LocationService
+    public locationService: LocationService,
+    public location: Location
   ) {
 
   }

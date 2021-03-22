@@ -30,11 +30,12 @@ export class HeaderComponent implements OnInit {
     this.router.events.subscribe(() => {
       this.isFullscreen = [
         'home',
-        'vertical-feed'
+        'vertical-feed',
       ].includes(this.router.url.split('/').reverse()[0]);
 
       this.isHidden = [
-        'account-setup'
+        'account-setup',
+        'create-post'
       ].includes(this.router.url.split('/').reverse()[0]);
     });
   }
