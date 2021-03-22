@@ -1,3 +1,4 @@
+import { MessagesComponent } from './messages/messages.component';
 import { ProfileVerticalFeedComponent } from './profile/profile-vertical-feed/profile-vertical-feed.component';
 import { AccountSetupComponent } from './account-setup/account-setup.component';
 import { AuthGuardService } from './shared/guards/auth-guard.service';
@@ -31,6 +32,7 @@ const routes: Routes = [
   },
   { path: 'profile/:id/vertical-feed', component: ProfileVerticalFeedComponent },
   { path: 'create-post', component: CreatePostComponent, canActivate: [AuthGuardService] },
+  { path: 'messages', component: MessagesComponent, canActivate: [AuthGuardService] },
   { path: '**', redirectTo: '/home' }
 ];
 

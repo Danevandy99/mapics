@@ -33,6 +33,7 @@ import { VerticalFeedComponent } from './components/vertical-feed/vertical-feed.
 import { environment } from '../environments/environment';
 import { AccountSetupComponent } from './account-setup/account-setup.component';
 import { ProfileVerticalFeedComponent } from './profile/profile-vertical-feed/profile-vertical-feed.component';
+import { MessagesComponent } from './messages/messages.component';
 
 const config = {
   apiKey: environment.FIREBASE_API_KEY,
@@ -65,7 +66,8 @@ const config = {
     VerticalFeedComponent,
     AccountSetupComponent,
     VerticalFeedComponent,
-    ProfileVerticalFeedComponent
+    ProfileVerticalFeedComponent,
+    MessagesComponent
   ],
   imports: [
     BrowserModule,

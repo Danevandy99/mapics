@@ -28,6 +28,11 @@
     .iconify {
       width: 25px;
       height: 25px;
+
+      &.message {
+        transform: rotate(-30deg) !important;
+        margin-top: -5px;
+      }
     }
   }
 }
