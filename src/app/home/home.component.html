@@ -1,3 +1,7 @@
 <app-vertical-feed></app-vertical-feed>
+<button class="toggle" (click)="toggle(); isViewingNearest = !isViewingNearest">
+  <p [ngClass]="{'active': isViewingNearest }"><span class="iconify" data-icon="fluent:location-12-filled" data-inline="false"></span></p>
+  <p [ngClass]="{'active': !isViewingNearest }" ><span class="iconify"  data-icon="fa-solid:user-friends" data-inline="false"></span></p>
+</button>
 
 

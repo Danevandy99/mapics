@@ -1,2 +1,33 @@
+.toggle {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 4;
+  background: white;
+  border-radius: 20px;
+  border: 2px solid white;
+  padding: 0px;
 
+  p {
+    display: inline-block;
+    margin: 0;
+
+    .iconify {
+      padding: 7px 14px;
+      width: 50px;
+      height: 36px;
+      color: #6f78d6;
+    }
+
+    &.active {
+      .iconify {
+        color: white;
+        border-radius: 20px;
+        background-color: #6f78d6;
+      }
+    }
+  }
+
+
+}
 

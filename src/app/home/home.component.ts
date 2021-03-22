@@ -1,9 +1,11 @@
+import { UserSettingsService } from './../shared/service/user-settings.service';
+import { AuthService } from './../shared/service/auth.service';
 import { FeedService } from './../shared/service/feed.service';
 import { LocationService } from './../shared/service/location.service';
 import { AngularFirestore, QuerySnapshot } from '@angular/fire/firestore';
 import { Component, OnInit } from '@angular/core';
 import { Post } from '../shared/models/post';
-import { map, first, concatAll, toArray, tap, switchMap } from 'rxjs/operators';
+import { map, first, concatAll, toArray, tap, switchMap, filter, take } from 'rxjs/operators';
 import { concat, forkJoin, merge, Observable } from 'rxjs';
 const geofire = require('geofire-common');
 
@@ -15,17 +17,71 @@ const geofire = require('geofire-common');
 })
 export class HomeComponent implements OnInit {
 
+  isViewingNearest = true;
+
   constructor(
     private store: AngularFirestore,
     private locationService: LocationService,
-    public feedService: FeedService
+    public feedService: FeedService,
+    private userSettingsService: UserSettingsService,
+    private authService: AuthService
   ) { }
 
   ngOnInit() {
-    this.feedService.setPosts(this.getPosts());
+    this.feedService.setPosts(this.getNearestPosts());
   }
 
-  getPosts(): Observable<Post[]> {
+  toggle() {
+    if (this.isViewingNearest) {
+      this.feedService.setPosts(this.getFollowingPosts());
+    } else {
+      this.feedService.setPosts(this.getNearestPosts());
+    }
+  }
+
+  getFollowingPosts(): Observable<Post[]> {
+    return forkJoin({
+        followingIds: this.userSettingsService.currentUserFollowingIds$.pipe(
+          take(1)
+        ),
+        currentUser: this.authService.user.pipe(
+          filter(user => !!user),
+          take(1)
+        )
+      })
+      .pipe(
+        switchMap(result => {
+          var queries = [
+            this.store.collection('users').doc(result.currentUser.uid).collection('posts').get()
+          ];
+          var i, j, chunk, chunkSize = 10;
+
+            for (i = 0, j = result.followingIds.length; i < j; i += chunkSize) {
+              chunk = result.followingIds.slice(i, i + chunkSize);
+              if (chunk.length > 0) {
+                queries.push(this.store.collectionGroup("posts", ref => ref.where('authorId', 'in', chunk)).get());
+              }
+          }
+
+          return concat(...queries)
+            .pipe(
+              toArray(),
+              map((snapshots: QuerySnapshot<Post[]>[]) => {
+                return [].concat(...snapshots.map(snapshot => {
+                  return snapshot.docs.map(doc => {
+                    return { ...<object>doc.data(), postId: doc.id } as Post;
+                  })
+                }))
+                .sort((a: Post, b: Post) => {
+                  return b.timePosted - a.timePosted;
+                });
+              })
+            )
+        })
+      )
+  }
+
+  getNearestPosts(): Observable<Post[]> {
     return this.locationService.location
       .pipe(
         first(),
@@ -54,14 +110,14 @@ export class HomeComponent implements OnInit {
                     return post;
                   })
                 }))
-                  // Filter out false positives
-                  .filter((post: Post) => {
-                    return geofire.distanceBetween([post.latitude, post.longitude], [location.latitude, location.longitude]) * 1000 <= meters;
-                  })
-                  // Sort by post time, descending
-                  .sort((a: Post, b: Post) => {
-                    return b.timePosted - a.timePosted;
-                  });
+                // Filter out false positives
+                .filter((post: Post) => {
+                  return geofire.distanceBetween([post.latitude, post.longitude], [location.latitude, location.longitude]) * 1000 <= meters;
+                })
+                // Sort by post time, descending
+                .sort((a: Post, b: Post) => {
+                  return b.timePosted - a.timePosted;
+                });
               })
             )
         })
