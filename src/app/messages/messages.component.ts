@@ -13,6 +13,7 @@ import { AuthService } from '../shared/service/auth.service';
 export class MessagesComponent implements OnInit {
 
   conversations: Conversation[];
+  blankImage: string = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
 
   constructor(
     private store: AngularFirestore,
@@ -22,7 +23,7 @@ export class MessagesComponent implements OnInit {
   ngOnInit(): void {
     this.retreiveMessages();
   }
-  
+
   retreiveMessages() {
     this.auth.user.pipe(
       filter(user => !!user),
@@ -53,7 +54,7 @@ export class MessagesComponent implements OnInit {
         })
       });
     });
-    
+
 
 }
 

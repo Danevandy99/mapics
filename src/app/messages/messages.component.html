@@ -1,39 +1,14 @@
 <div class="container mt-3">
-  <!-- <div class="list-group">
-    <a  class="list-group-item list-group-item-action flex-column align-items-start active">
-      <div class="d-flex w-100 justify-content-between">
-        <h5 class="mb-1">List group item heading</h5>
-        <small>3 days ago</small>
+  <ul class="list-group">
+    <a class="list-group-item list-group-item-action px-2 d-flex flex-row align-items-center" [routerLink]="['/messages', conversation.userID ]" *ngFor="let conversation of conversations">
+      <div class="info-container d-flex flex-direction-row align-items-center">
+        <img class="shimmer" src="{{ conversation.user?.photoURL || blankImage }}">
+        <div class="px-2 text-wrap">
+          <p class="text-dark mb-0">{{ conversation.user?.username}}</p>
+          <p class="mb-0 text-muted">{{ conversation.lastSentMessage}}</p>
+        </div>
       </div>
-      <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-      <small>Donec id elit non mi porta.</small>
+      <span class="arrow iconify mx-2" data-icon="akar-icons:chevron-right" data-inline="false"></span>
     </a>
-    <a  class="list-group-item list-group-item-action flex-column align-items-start">
-      <div class="d-flex w-100 justify-content-between">
-        <h5 class="mb-1">List group item heading</h5>
-        <small class="text-muted">3 days ago</small>
-      </div>
-      <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-      <small class="text-muted">Donec id elit non mi porta.</small>
-    </a>
-    <a class="list-group-item list-group-item-action flex-column align-items-start">
-      <div class="d-flex w-100 justify-content-between">
-        <h5 class="mb-1">List group item heading</h5>
-        <small class="text-muted">3 days ago</small>
-      </div>
-      <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-      <small class="text-muted">Donec id elit non mi porta.</small>
-    </a>
-  </div> -->
-  <ul class="list-group" *ngFor="let conversation of conversations;">
-  <div class="list-group-item px-0">
-      <div class="d-flex flex-direction-row ">
-          <img src="{{message.user?.photoURL}}">
-          <div class="px-2 text-wrap">
-              <p class="text-dark mb-0"><a class="text-dark"> {{message.user?.username}}</a></p>
-              <p class="mb-0 text-muted">{{message.lastSentMessage}}</p>
-          </div>
-      </div>
-  </div>
-</ul>
+  </ul>
 </div>
