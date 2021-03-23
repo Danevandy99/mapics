@@ -47,6 +47,9 @@ export class HomeComponent implements OnInit {
         currentUser: this.authService.user.pipe(
           filter(user => !!user),
           take(1)
+        ),
+        location: this.locationService.location.pipe(
+          take(1)
         )
       })
       .pipe(
@@ -69,7 +72,12 @@ export class HomeComponent implements OnInit {
               map((snapshots: QuerySnapshot<Post[]>[]) => {
                 return [].concat(...snapshots.map(snapshot => {
                   return snapshot.docs.map(doc => {
-                    return { ...<object>doc.data(), postId: doc.id } as Post;
+                    let post = {
+                      ...<object>doc.data(),
+                      postId: doc.id,
+                    } as Post;
+                    post.distance = this.calculateDistance(post.latitude, post.longitude, result.location.latitude, result.location.longitude, 'M')
+                    return post;
                   })
                 }))
                 .sort((a: Post, b: Post) => {

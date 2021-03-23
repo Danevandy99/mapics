@@ -1,5 +1,5 @@
 <div class="container mt-3">
-  <div class="list-group">
+  <!-- <div class="list-group">
     <a  class="list-group-item list-group-item-action flex-column align-items-start active">
       <div class="d-flex w-100 justify-content-between">
         <h5 class="mb-1">List group item heading</h5>
@@ -24,5 +24,16 @@
       <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
       <small class="text-muted">Donec id elit non mi porta.</small>
     </a>
+  </div> -->
+  <ul class="list-group" *ngFor="let conversation of conversations;">
+  <div class="list-group-item px-0">
+      <div class="d-flex flex-direction-row ">
+          <img src="{{message.user?.photoURL}}">
+          <div class="px-2 text-wrap">
+              <p class="text-dark mb-0"><a class="text-dark"> {{message.user?.username}}</a></p>
+              <p class="mb-0 text-muted">{{message.lastSentMessage}}</p>
+          </div>
+      </div>
   </div>
+</ul>
 </div>

@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { filter, map, switchMap } from 'rxjs/operators';
+import { Conversation } from '../shared/models/conversation';
+import { UserSettings } from '../shared/models/user';
+import { AuthService } from '../shared/service/auth.service';
 
 @Component({
   selector: 'app-messages',
@@ -7,9 +12,49 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MessagesComponent implements OnInit {
 
-  constructor() { }
+  conversations: Conversation[];
+
+  constructor(
+    private store: AngularFirestore,
+    private auth: AuthService,
+  ) { }
 
   ngOnInit(): void {
+    this.retreiveMessages();
   }
+  
+  retreiveMessages() {
+    this.auth.user.pipe(
+      filter(user => !!user),
+      switchMap(user => {
+        return this.store.collection('users').doc(user.uid).collection('conversations')
+        .get()
+        .pipe(
+          map(docs => {
+            return docs.docs.map( doc => {
+              return { ...<Object>doc.data(), userID: doc.id } as Conversation
+            })
+          })
+        )
+      })
+    )
+    .subscribe(conversations => {
+      this.conversations = conversations;
+      this.conversations.forEach(conversation => {
+        this.store.collection('users').doc(conversation.userID)
+        .get()
+        .pipe( map
+          (doc => {
+            return { ...<object>doc.data(), userId: doc.id } as UserSettings;
+          })
+        )
+        .subscribe(userSetting => {
+          conversation.user = userSetting;
+        })
+      });
+    });
+    
+
+}
 
 }
