@@ -1,4 +1,5 @@
-import { MessagesComponent } from './messages/messages.component';
+import { ConversationComponent } from './conversations/conversation/conversation.component';
+import { ConversationsComponent } from './conversations/conversations.component';
 import { ProfileVerticalFeedComponent } from './profile/profile-vertical-feed/profile-vertical-feed.component';
 import { AccountSetupComponent } from './account-setup/account-setup.component';
 import { AuthGuardService } from './shared/guards/auth-guard.service';
@@ -32,7 +33,8 @@ const routes: Routes = [
   },
   { path: 'profile/:id/vertical-feed', component: ProfileVerticalFeedComponent },
   { path: 'create-post', component: CreatePostComponent, canActivate: [AuthGuardService] },
-  { path: 'messages', component: MessagesComponent, canActivate: [AuthGuardService] },
+  { path: 'conversations', component: ConversationsComponent, canActivate: [AuthGuardService] },
+  { path: 'conversations/:id', component: ConversationComponent, canActivate: [AuthGuardService] },
   { path: '**', redirectTo: '/home' }
 ];
 

@@ -1,0 +1,15 @@
+<div class="header bg-light">
+  <div class="container d-flex flex-row">
+    <button class="back" routerLink="/conversations"><span class="iconify" data-icon="akar-icons:chevron-left" data-inline="false"></span></button>
+    <div class="px-2 d-flex flex-row align-items-center">
+      <div class="info-container d-flex flex-direction-row align-items-center">
+        <img class="shimmer" src="{{ conversation?.user?.photoURL || blankImage }}">
+        <div class="px-3 text-wrap">
+          <p class="text-dark mb-0">{{ conversation?.user?.username || "Loading..." }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container">
+</div>

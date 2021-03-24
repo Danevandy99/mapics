@@ -1,6 +1,6 @@
 <div class="container mt-3">
   <ul class="list-group">
-    <a class="list-group-item list-group-item-action px-2 d-flex flex-row align-items-center" [routerLink]="['/messages', conversation.userID ]" *ngFor="let conversation of conversations">
+    <a class="list-group-item list-group-item-action px-2 d-flex flex-row align-items-center" [routerLink]="['/conversations', conversation.userID ]" *ngFor="let conversation of conversations">
       <div class="info-container d-flex flex-direction-row align-items-center">
         <img class="shimmer" src="{{ conversation.user?.photoURL || blankImage }}">
         <div class="px-2 text-wrap">

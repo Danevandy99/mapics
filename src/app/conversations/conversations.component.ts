@@ -7,10 +7,10 @@ import { AuthService } from '../shared/service/auth.service';
 
 @Component({
   selector: 'app-messages',
-  templateUrl: './messages.component.html',
-  styleUrls: ['./messages.component.scss']
+  templateUrl: './conversations.component.html',
+  styleUrls: ['./conversations.component.scss']
 })
-export class MessagesComponent implements OnInit {
+export class ConversationsComponent implements OnInit {
 
   conversations: Conversation[];
   blankImage: string = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="

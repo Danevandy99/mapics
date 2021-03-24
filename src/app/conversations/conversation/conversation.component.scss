@@ -1,0 +1,32 @@
+.header {
+
+  .back {
+    margin: 15px 2vw;
+    margin-right: 0px;
+    z-index: 2;
+    font-size: 26px;
+    height: 38px;
+    color: black;
+    background-color: transparent;
+    border: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .info-container {
+    flex: 1;
+
+    img {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+  }
+}
+
+.container {
+
+}

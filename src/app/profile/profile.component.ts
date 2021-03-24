@@ -5,7 +5,6 @@ import { AuthService } from './../shared/service/auth.service';
 import { UserSettings } from './../shared/models/user';
 import { Component, OnInit, SimpleChanges } from '@angular/core';
 import { filter, first, map, switchMap } from 'rxjs/operators';
-import firebase from 'firebase';
 import { Post } from '../shared/models/post';
 import { Observable } from 'rxjs';
 

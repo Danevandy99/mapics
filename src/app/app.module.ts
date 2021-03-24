@@ -1,3 +1,4 @@
+import { ConversationsComponent } from './conversations/conversations.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
@@ -33,7 +34,7 @@ import { VerticalFeedComponent } from './components/vertical-feed/vertical-feed.
 import { environment } from '../environments/environment';
 import { AccountSetupComponent } from './account-setup/account-setup.component';
 import { ProfileVerticalFeedComponent } from './profile/profile-vertical-feed/profile-vertical-feed.component';
-import { MessagesComponent } from './messages/messages.component';
+import { ConversationComponent } from './conversations/conversation/conversation.component';
 
 const config = {
   apiKey: environment.FIREBASE_API_KEY,
@@ -67,7 +68,8 @@ const config = {
     AccountSetupComponent,
     VerticalFeedComponent,
     ProfileVerticalFeedComponent,
-    MessagesComponent
+    ConversationsComponent,
+    ConversationComponent,
   ],
   imports: [
     BrowserModule,
