@@ -6,7 +6,8 @@ import { Component, OnInit } from '@angular/core';
 import { combineLatest, Observable } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AuthService } from 'src/app/shared/service/auth.service';
-import { filter, switchMap, mergeMap, first, map, tap } from 'rxjs/operators';
+import { filter, switchMap, first, map, tap } from 'rxjs/operators';
+import firebase from 'firebase';
 
 @Component({
   selector: 'app-conversation',
@@ -18,6 +19,8 @@ export class ConversationComponent implements OnInit {
   blankImage: string = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
   conversation: Conversation;
   messages$: Observable<Message[]>;
+  newMessage: string;
+  sending = false;
 
   constructor(
     private store: AngularFirestore,
@@ -28,6 +31,34 @@ export class ConversationComponent implements OnInit {
 
   ngOnInit(): void {
     this.getConversation();
+
+    this.messages$ = this.getMessages();
+  }
+
+  get currentUser(): Observable<firebase.User> {
+    return this.authService.user.pipe(
+      filter(user => !!user)
+    )
+  }
+
+  getMessages(): Observable<Message[]> {
+    return combineLatest([
+      this.route.params,
+      this.authService.user.pipe(
+        filter(user => !!user),
+        first()
+      )
+    ])
+      .pipe(
+        switchMap(result => {
+          return this.store.collection('users').doc(result[1].uid).collection('conversations').doc(result[0].id).collection('messages', ref => ref.orderBy('timestamp')).snapshotChanges();
+        }),
+        map(docChanges => {
+          return docChanges.map(changes => {
+            return changes.payload.doc.data() as Message;
+          })
+        })
+      )
   }
 
   getConversation() {
@@ -54,6 +85,40 @@ export class ConversationComponent implements OnInit {
     ).subscribe(userSettings => {
       this.conversation.user = userSettings;
     })
+  }
+
+  async sendMessage() {
+    try {
+      this.sending = true;
+      const user = await this.authService.user.pipe(filter(user => !!user), first()).toPromise();
+
+      const message: Message = {
+        senderID: user.uid,
+        receiverID: this.conversation.userID,
+        messageText: this.newMessage,
+        timestamp: Date.now()
+      };
+
+      // Add message to current user messages
+      await this.store.collection('users').doc(user.uid).collection('conversations').doc(this.conversation.userID).collection('messages').add(message);
+      await this.store.collection('users').doc(user.uid).collection('conversations').doc(this.conversation.userID).set({
+        lastSentMessage: this.newMessage,
+        lastSentMessageTime: Date.now()
+      });
+
+      // Add to recipient messages
+      await this.store.collection('users').doc(this.conversation.userID).collection('conversations').doc(user.uid).collection('messages').add(message);
+      await this.store.collection('users').doc(this.conversation.userID).collection('conversations').doc(user.uid).set({
+        lastSentMessage: this.newMessage,
+        lastSentMessageTime: Date.now()
+      });
+
+      this.newMessage = "";
+    } catch (error) {
+      alert("Error sending message: " + error);
+    } finally {
+      this.sending = false;
+    }
   }
 
 }

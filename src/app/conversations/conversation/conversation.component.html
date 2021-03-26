@@ -1,15 +1,35 @@
-<div class="header bg-light">
-  <div class="container d-flex flex-row">
-    <button class="back" routerLink="/conversations"><span class="iconify" data-icon="akar-icons:chevron-left" data-inline="false"></span></button>
-    <div class="px-2 d-flex flex-row align-items-center">
-      <div class="info-container d-flex flex-direction-row align-items-center">
-        <img class="shimmer" src="{{ conversation?.user?.photoURL || blankImage }}">
-        <div class="px-3 text-wrap">
-          <p class="text-dark mb-0">{{ conversation?.user?.username || "Loading..." }}</p>
+<div class="conversation-container d-flex flex-column">
+  <div class="header bg-light">
+    <div class="container d-flex flex-row">
+      <button class="back" routerLink="/conversations"><span class="iconify" data-icon="akar-icons:chevron-left" data-inline="false"></span></button>
+      <div class="px-2 d-flex flex-row align-items-center">
+        <div class="info-container d-flex flex-direction-row align-items-center">
+          <img class="shimmer" src="{{ conversation?.user?.photoURL || blankImage }}">
+          <div class="px-3 text-wrap">
+            <p class="text-dark mb-0">{{ conversation?.user?.username || "Loading..." }}</p>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
-<div class="container">
+  <div class="messaging-section container d-flex flex-column">
+    <div class="messages-section">
+      <div
+        [ngClass]="message.senderID === (currentUser | async).uid ? 'bg-primary text-light' : 'bg-light text-dark'"
+        class="message p-3 m-1 w-50"
+        *ngFor="let message of (messages$ | async)">
+        {{ message.messageText }}
+      </div>
+    </div>
+    <div class="input-section">
+      <form class="form-inline w-100 d-flex flex-row" #messageForm="ngForm" (ngSubmit)="sendMessage()">
+        <fieldset class="form-group mx-sm-3 mb-2" [disabled]="sending">
+            <label for="message" class="sr-only"></label>
+            <input name="message" [(ngModel)]="newMessage" rows="1" type="text" class="form-control w-100" id="message" placeholder="Your message" required>
+        </fieldset>
+        <button type="submit" class="btn btn-primary mb-2 px-3" [disabled]="!messageForm.valid || sending">Send</button>
+      </form>
+    </div>
+  </div>
+
 </div>
