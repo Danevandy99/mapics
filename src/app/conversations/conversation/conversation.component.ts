@@ -2,7 +2,7 @@ import { UserSettings } from 'src/app/shared/models/user';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Message } from './../../shared/models/message';
 import { Conversation } from './../../shared/models/conversation';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { combineLatest, Observable } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AuthService } from 'src/app/shared/service/auth.service';
@@ -15,7 +15,7 @@ import firebase from 'firebase';
   styleUrls: ['./conversation.component.scss']
 })
 export class ConversationComponent implements OnInit {
-
+  @ViewChild('messagesSection') messagesSection: ElementRef;
   blankImage: string = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
   conversation: Conversation;
   messages$: Observable<Message[]>;
@@ -33,6 +33,10 @@ export class ConversationComponent implements OnInit {
     this.getConversation();
 
     this.messages$ = this.getMessages();
+  }
+
+  ngAfterViewChecked() {
+    this.messagesSection.nativeElement.scrollTop = this.messagesSection.nativeElement.scrollHeight;
   }
 
   get currentUser(): Observable<firebase.User> {

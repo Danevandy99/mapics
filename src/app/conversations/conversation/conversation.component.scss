@@ -1,5 +1,6 @@
 .conversation-container {
   height: calc(var(--100vh) - 66px);
+  max-height: calc(var(--100vh) - 66px);
 
 
   .header {
@@ -40,16 +41,23 @@
     flex: 1;
 
     .messages-section {
-      flex: 1;
+      flex: 1 0 auto;
+      overflow-y: auto;
+      height: 0;
 
       .message {
-        border-radius: 10px;
         max-width: 300px;
+
+        p {
+          display: inline-block;
+          border-radius: 10px;
+        }
       }
     }
 
     .input-section {
-      flex: none;
+      flex: 0;
+      background-color: white;
 
       .form-inline {
 
