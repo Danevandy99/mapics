@@ -35,6 +35,7 @@ import { environment } from '../environments/environment';
 import { AccountSetupComponent } from './account-setup/account-setup.component';
 import { ProfileVerticalFeedComponent } from './profile/profile-vertical-feed/profile-vertical-feed.component';
 import { ConversationComponent } from './conversations/conversation/conversation.component';
+import { TimeagoModule } from 'ngx-timeago';
 
 const config = {
   apiKey: environment.FIREBASE_API_KEY,
@@ -84,6 +85,7 @@ const config = {
     FontAwesomeModule,
     WebcamModule,
     PickerModule,
+    TimeagoModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent]

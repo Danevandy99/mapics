@@ -50,6 +50,15 @@
     }
   }
 
+  .profile-info {
+    .profile-buttons-section {
+      button {
+        flex: 1;
+        margin: 0px 3px;
+      }
+    }
+  }
+
   .profile-menu {
 
     a {

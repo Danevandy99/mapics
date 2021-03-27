@@ -36,6 +36,7 @@
     "geofire-common": "^5.2.0",
     "geofirex": "^0.1.0",
     "ngeohash": "^0.6.3",
+    "ngx-timeago": "^2.0.0",
     "ngx-webcam": "^0.3.2",
     "rxjs": "^6.6.3",
     "tslib": "^2.0.0",

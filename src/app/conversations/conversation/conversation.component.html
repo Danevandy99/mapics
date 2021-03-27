@@ -13,24 +13,30 @@
     </div>
   </div>
   <div class="messaging-section container d-flex flex-column">
-    <div class="messages-section d-flex flex-column p-3" #messagesSection>
-      <div
+    <div class="messages-section d-flex flex-column p-2" #messagesSection>
+      <div class="w-100 d-flex flex-column" *ngFor="let message of messages$ | async as messages; let i = index;">
+        <p
+          *ngIf="message.timestamp - (messages[i - 1]?.timestamp || 0) > (5 * 60 * 1000)"
+          class="m-auto align-self-center text-muted">{{ message.timestamp | date:'medium' }}</p>
+        <div
         class="message w-50 d-flex flex-row"
         [ngClass]="[message.senderID === (currentUser | async).uid ? 'align-self-end' : '']"
-        *ngFor="let message of (messages$ | async)">
+        >
         <p
           class="p-3 m-1"
           [ngClass]="[message.senderID === (currentUser | async).uid ? 'bg-primary text-light ml-auto' : 'bg-light text-dark']"
         >{{ message.messageText }}</p>
       </div>
+      </div>
+
     </div>
-    <div class="input-section p-2">
+    <div class="input-section p-lg-2">
       <form class="form-inline w-100 d-flex flex-row" #messageForm="ngForm" (ngSubmit)="sendMessage()">
-        <fieldset class="form-group mx-sm-3 mb-2" [disabled]="sending">
+        <fieldset class="form-group mx-lg-2 mx-1 mb-2" [disabled]="sending">
             <label for="message" class="sr-only"></label>
             <input name="message" [(ngModel)]="newMessage" rows="1" type="text" class="form-control w-100" id="message" placeholder="Your message" required>
         </fieldset>
-        <button type="submit" class="btn btn-primary mb-2 px-3 mr-sm-3" [disabled]="!messageForm.valid || sending">Send</button>
+        <button type="submit" class="btn btn-primary mb-2 px-3 mr-lg-3" [disabled]="!messageForm.valid || sending">Send</button>
       </form>
     </div>
   </div>

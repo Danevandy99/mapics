@@ -28,7 +28,7 @@ export class ConversationsComponent implements OnInit {
     this.auth.user.pipe(
       filter(user => !!user),
       switchMap(user => {
-        return this.store.collection('users').doc(user.uid).collection('conversations')
+        return this.store.collection('users').doc(user.uid).collection('conversations', ref => ref.orderBy('lastSentMessageTime', 'desc'))
         .get()
         .pipe(
           map(docs => {

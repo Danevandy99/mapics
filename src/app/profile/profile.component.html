@@ -14,7 +14,7 @@
     <h1 class="mt-1 mb-0">{{ userSettings?.displayName }}</h1>
     <p class="mt-0 mb-2"><small>@{{ userSettings?.username }}</small></p>
     <h6 class="text-muted font-weight-light mt-0">{{ userSettings?.bio }}</h6>
-    <div class="row mt-2">
+    <div class="row mt-2 px-1">
       <div class="col-4 px-2 text-center">
         <h2 class="font-weight-light mb-0">{{ userSettings?.postsCount || 0}}</h2>
         <p class="font-weight-bold">posts</p>
@@ -30,8 +30,12 @@
       </div>
     </div>
     <button class="btn btn-secondary w-100 mb-3" *ngIf="userId === (currentUserId | async)" routerLink="/profile/edit">Edit Profile</button>
-    <button class="btn btn-secondary w-100 mb-3" *ngIf="userId && (currentUserId | async) && userId !== (currentUserId | async) && !isFollowing" (click)="followUser(userId)">Follow</button>
-    <button class="btn btn-secondary w-100 mb-3" *ngIf="userId && (currentUserId | async) && userId !== (currentUserId | async) && isFollowing" (click)="unfollowUser(userId)">Unfollow</button>
+    <div class="profile-buttons-section w-100 d-flex flex-row">
+      <button class="btn btn-secondary mb-3" *ngIf="userId && (currentUserId | async) && userId !== (currentUserId | async) && !isFollowing" (click)="followUser(userId)">Follow</button>
+      <button class="btn btn-secondary mb-3" *ngIf="userId && (currentUserId | async) && userId !== (currentUserId | async) && isFollowing" (click)="unfollowUser(userId)">Unfollow</button>
+      <button class="btn btn-secondary mb-3" *ngIf="userId && (currentUserId | async) && userId !== (currentUserId | async)" [routerLink]="['/conversations', userId]">Message</button>
+    </div>
+
   </div>
   <ul class="nav nav-pills nav-fill profile-menu d-flex flex-row mt-1 w-100">
     <li class="flex-fill">

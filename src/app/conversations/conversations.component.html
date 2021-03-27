@@ -5,7 +5,7 @@
         <img class="shimmer" src="{{ conversation.user?.photoURL || blankImage }}">
         <div class="px-2 text-wrap">
           <p class="text-dark mb-0">{{ conversation.user?.username}}</p>
-          <p class="mb-0 text-muted">{{ conversation.lastSentMessage}}</p>
+          <p class="mb-0 text-muted">{{ conversation.lastSentMessage }} - {{ conversation.lastSentMessageTime | timeago }}</p>
         </div>
       </div>
       <span class="arrow iconify mx-2" data-icon="akar-icons:chevron-right" data-inline="false"></span>
