@@ -10,7 +10,7 @@
     <h3 class="text-light">{{ post.distance | number:'.1-1' }}</h3>
     <app-reaction [post]="post"></app-reaction>
     <app-comment [post]="post"></app-comment>
-    <span class="iconify" data-icon="fa-solid:share" data-inline="false"></span>
+    <span class="iconify message" data-icon="uil:message" data-inline="false"></span>
   </div>
   <div class="post-info">
     <p><b><a class="text-light" [routerLink]="['/profile', post.author?.userId]">@{{ post.author?.username }}</a></b></p>
