@@ -17,7 +17,7 @@ export class CommentComponent implements OnInit {
   comments: Array<Comment>;
 
   closeResult = '';
-
+  newComment = '';
   constructor(
     private modalService: NgbModal,
     private store: AngularFirestore,
@@ -69,6 +69,7 @@ export class CommentComponent implements OnInit {
       ...comment,
       commentID: newDoc.id
     } as Comment);
+    this.newComment = '';
   }
 
   retreiveComments() {
