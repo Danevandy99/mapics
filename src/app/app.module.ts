@@ -87,7 +87,9 @@ const config = {
     PickerModule,
     TimeagoModule.forRoot(),
   ],
-  providers: [],
+  providers: [
+    { provide: Window, useValue: window }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

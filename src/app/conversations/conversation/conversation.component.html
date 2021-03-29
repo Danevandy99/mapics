@@ -1,7 +1,7 @@
 <div class="conversation-container d-flex flex-column">
   <div class="header bg-light">
     <div class="container d-flex flex-row">
-      <button class="back" routerLink="/conversations"><span class="iconify" data-icon="akar-icons:chevron-left" data-inline="false"></span></button>
+      <button class="back" (click)="window.history.back()"><span class="iconify" data-icon="akar-icons:chevron-left" data-inline="false"></span></button>
       <div class="px-2 d-flex flex-row align-items-center">
         <div class="info-container d-flex flex-direction-row align-items-center">
           <img class="shimmer" src="{{ conversation?.user?.photoURL || blankImage }}">

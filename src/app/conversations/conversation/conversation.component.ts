@@ -26,7 +26,8 @@ export class ConversationComponent implements OnInit {
     private store: AngularFirestore,
     private authService: AuthService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    public window: Window
   ) { }
 
   ngOnInit(): void {
