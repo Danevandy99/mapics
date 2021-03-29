@@ -1,4 +1,9 @@
 <div class="container mt-3">
+  <h1>Messages</h1>
+  <hr class="border w-100">
+</div>
+<div class="container mt-3">
+  <div *ngIf="conversations?.length == 0">You haven't started a conversation yet!</div>
   <ul class="list-group">
     <a class="list-group-item list-group-item-action px-2 d-flex flex-row align-items-center" [routerLink]="['/conversations', conversation.userID ]" *ngFor="let conversation of conversations">
       <div class="info-container d-flex flex-direction-row align-items-center">
