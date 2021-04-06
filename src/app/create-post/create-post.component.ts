@@ -65,6 +65,19 @@ export class CreatePostComponent implements OnInit {
 
   }
 
+  upload(event) {
+
+    let file = event.target.files[0];
+
+    const fileReader = new FileReader();
+    fileReader.addEventListener('load', (event) => {
+      this.webcamImage = new WebcamImage(event.target.result as string, file.type, file);
+    });
+    fileReader.readAsDataURL(file);
+
+    this.createPostState = CreatePostState.PREVIEW
+  }
+
   async createPost(form: { caption: string }) {
     try {
       this.createPostButtonState = CreatePostButtonState.SAVING;
