@@ -31,6 +31,9 @@
       <div *ngIf="newPostForm.get('caption').dirty || newPostForm.get('caption').touched" class="ml-2 text-danger d-flex flex-column mt-1">
         <small *ngIf="newPostForm.get('caption').errors?.required">Caption is required.</small>
       </div>
+      <div *ngIf="createPostFirebaseError" class="ml-2 text-danger d-flex flex-column mt-1">
+        <small>{{ createPostFirebaseError }}</small>
+      </div>
     </div>
     <button
         type="submit"

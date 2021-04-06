@@ -80,6 +80,8 @@ export class CreatePostComponent implements OnInit {
 
   async createPost(form: { caption: string }) {
     try {
+      this.createPostFirebaseError = "";
+
       this.createPostButtonState = CreatePostButtonState.SAVING;
 
       const user = await this.authService.user.pipe(filter(user => !!user), first()).toPromise();
@@ -114,7 +116,7 @@ export class CreatePostComponent implements OnInit {
       setTimeout(() => this.router.navigateByUrl("/home"), 1000);
     } catch(error) {
       console.log(error);
-      this.createPostFirebaseError = error.message;
+      this.createPostFirebaseError = error.message ?? error;
       this.createPostButtonState = CreatePostButtonState.NOT_SAVED_SUCCESSFULLY;
     } finally {
       setTimeout(() => this.createPostButtonState = CreatePostButtonState.UNSAVED, 5000);

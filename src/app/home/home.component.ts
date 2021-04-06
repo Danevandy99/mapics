@@ -5,7 +5,7 @@ import { LocationService } from './../shared/service/location.service';
 import { AngularFirestore, QuerySnapshot } from '@angular/fire/firestore';
 import { Component, OnInit } from '@angular/core';
 import { Post } from '../shared/models/post';
-import { map, first, concatAll, toArray, tap, switchMap, filter, take } from 'rxjs/operators';
+import { map, first, concatAll, toArray, tap, switchMap, filter, take, timeout } from 'rxjs/operators';
 import { concat, forkJoin, merge, Observable } from 'rxjs';
 const geofire = require('geofire-common');
 
@@ -92,6 +92,7 @@ export class HomeComponent implements OnInit {
   getNearestPosts(): Observable<Post[]> {
     return this.locationService.location
       .pipe(
+        timeout(5000),
         first(),
         switchMap(location => {
           const miles = 10;

@@ -12,6 +12,10 @@ export class LocationService {
   )
 
   constructor() {
+    this.getLocation();
+  }
+
+  getLocation() {
     try {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(position => {
@@ -20,12 +24,15 @@ export class LocationService {
               latitude: position.coords.latitude,
               longitude: position.coords.longitude
             })
+          } else {
+            this._location.error("Could not get location at this time. Please make sure you have location permissions enabled for your browser.");
           }
         },
-        error => console.log(error),
+        error => this._location.error("Could not get location at this time. Please make sure you have location permissions enabled for your browser."),
         {
           maximumAge: 3000,
-          enableHighAccuracy: false
+          enableHighAccuracy: false,
+          timeout: 5000
         });
       } else {
         throw new console.error("Could not access location");
